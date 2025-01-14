@@ -1,0 +1,5 @@
+-ID:/msys64/mingw64/include/xcodec
+-DWIN32
+-o
+D:/__Repos/__MyRepos/xviewer-cmake/build/moc_xviewer.cpp
+D:/__Repos/__MyRepos/xviewer-cmake/xviewer.h

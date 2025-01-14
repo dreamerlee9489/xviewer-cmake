@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"qvboxlayout": "cpp",
+		"qdir": "cpp"
+	},
+	"C_Cpp.errorSquiggles": "disabled"
+}

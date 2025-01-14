@@ -1,0 +1,5 @@
+-ID:/msys64/mingw64/include/xcodec
+-DWIN32
+-o
+D:/__Repos/__MyRepos/xviewer-cmake/build/moc_xcamera_config.cpp
+D:/__Repos/__MyRepos/xviewer-cmake/xcamera_config.h
