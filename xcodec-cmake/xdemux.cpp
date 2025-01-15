@@ -22,59 +22,56 @@
 **
 *****************************************************************************
 //！！！！！！！！！FFmpeg 4.2 从基础实战-多路H265监控录放开发 实训课 课程  QQ群：639014264下载代码和学员交流*/
-#pragma once
-
-#include <QtWidgets/QWidget>
-#include "ui_xviewer.h"
-#include <QMenu>
-class XViewer : public QWidget
+#include "xdemux.h"
+#include <iostream>
+#include <thread>
+#include "xtools.h"
+using namespace std;
+extern "C" { //指定函数是c语言函数，函数名不包含重载标注
+//引用ffmpeg头文件
+#include <libavformat/avformat.h>
+}
+void PrintErr(int err);
+#define BERR(err) if(err!= 0){PrintErr(err);return 0;}
+AVFormatContext* XDemux::Open(const char* url)
 {
-    Q_OBJECT
+    AVFormatContext* c = nullptr;
 
-public:
-    XViewer(QWidget *parent = Q_NULLPTR);
+    AVDictionary* opts = nullptr;
+    //av_dict_set(&opts, "rtsp_transport", "tcp", 0);//传输媒体流为tcp协议，默认udp
+    av_dict_set(&opts, "stimeout", "1000000", 0);//连接超时1秒
 
-    //鼠标事件 用于拖动窗口
-    void mouseMoveEvent(QMouseEvent* ev) override;
-    void mousePressEvent(QMouseEvent* ev) override;
-    void mouseReleaseEvent(QMouseEvent* ev) override;
+    //打开封装上下文
+    auto re = avformat_open_input(&c, url, nullptr, &opts);
+    if (opts)
+        av_dict_free(&opts);
+    BERR(re);
+    //获取媒体信息
+    re = avformat_find_stream_info(c, nullptr);
+    BERR(re);
+    //打印输入封装信息
+    av_dump_format(c, 0, url, 0);
 
-    //窗口大小发生编码
-    void resizeEvent(QResizeEvent* ev) override;
-    //右键菜单
-    void contextMenuEvent(QContextMenuEvent* event) override;
+    return c;
+}
 
-    //预览视频窗口
-    void View(int count);
+bool XDemux::Read(AVPacket* pkt)
+{
+    unique_lock<mutex> lock(mux_);
+    if (!c_)return false;
+    auto re = av_read_frame(c_, pkt);
+    BERR(re);
+    //计时 用于超时判断
+    last_time_ = NowMs();
+    return true;
+}
 
-    //刷新左侧相机列表
-    void RefreshCams();
-
-    //编辑摄像机
-    void SetCam(int index);
-
-    //定时器渲染视频 回调函数
-    void timerEvent(QTimerEvent* ev) override;
-public slots:
-    void MaxWindow();
-    void NormalWindow();
-    void View1();
-    void View4();
-    void View9();
-    void View16();
-    void AddCam();  //新增摄像机配置
-    void SetCam();  //
-    void DelCam();  //
-
-    void StartRecord(); //开始全部摄像头录制
-    void StopRecord();  //停止全部摄像头录制
-    void Preview();//预览界面
-    void Playback();//回放界面
-
-    void SelectCamera(QModelIndex index);//选择摄像机
-    void SelectDate(QDate date);        //选择日期
-    void PlayVideo(QModelIndex index);  //选择时间播放视频
-private:
-    Ui::XViewerClass ui;
-    QMenu left_menu_;
-};
+bool XDemux::Seek(long long pts, int stream_index)
+{
+    unique_lock<mutex> lock(mux_);
+    if (!c_)return false;
+    auto re = av_seek_frame(c_, stream_index, pts,
+               AVSEEK_FLAG_FRAME | AVSEEK_FLAG_BACKWARD);
+    BERR(re);
+    return true;
+}

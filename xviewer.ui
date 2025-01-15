@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>818</width>
     <height>600</height>
    </rect>
   </property>
@@ -83,8 +83,32 @@ background-color: #1e1e1e;
 }
 
 
+#status
+{
+	color: rgb(255, 255, 255);
+	font: 75 9pt &quot;Adobe Arabic&quot;;
+}
 
-</string>
+
+/*tab 菜单按钮切换样式 */
+
+#preview
+{
+background-color: rgb(50, 50, 50);
+}
+#playback
+{
+background-color: rgb(50, 50, 50);
+}
+
+#preview:checked
+{
+background-color: rgb(0, 102, 184);
+}
+#playback:checked
+{
+background-color: rgb(0, 102, 184);
+}</string>
   </property>
   <widget class="QWidget" name="head" native="true">
    <property name="geometry">
@@ -204,13 +228,73 @@ background-color: #1e1e1e;
     <zorder>min</zorder>
     <zorder>max</zorder>
    </widget>
+   <widget class="QLabel" name="status">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>10</y>
+      <width>221</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>监控中。。。</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="preview">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>32</y>
+      <width>90</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>预览</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="playback">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>32</y>
+      <width>90</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>回放</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="autoRepeat">
+     <bool>false</bool>
+    </property>
+    <property name="autoExclusive">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QWidget" name="body" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>60</y>
-     <width>701</width>
+     <width>801</width>
      <height>371</height>
     </rect>
    </property>
@@ -300,16 +384,58 @@ background-color: #1e1e1e;
    <widget class="QWidget" name="cams" native="true">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>230</x>
       <y>10</y>
       <width>501</width>
       <height>351</height>
      </rect>
     </property>
    </widget>
+   <widget class="QWidget" name="playback_wid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>10</y>
+      <width>601</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <widget class="XCalendar" name="cal">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>0</y>
+       <width>431</width>
+       <height>361</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="time_list">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>150</width>
+       <height>800</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>20:30:59</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>XCalendar</class>
+   <extends>QCalendarWidget</extends>
+   <header>xcalendar.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="xviewer.qrc"/>
  </resources>
@@ -325,7 +451,7 @@ background-color: #1e1e1e;
      <y>21</y>
     </hint>
     <hint type="destinationlabel">
-     <x>907</x>
+     <x>817</x>
      <y>205</y>
     </hint>
    </hints>
@@ -342,7 +468,7 @@ background-color: #1e1e1e;
     </hint>
     <hint type="destinationlabel">
      <x>659</x>
-     <y>-39</y>
+     <y>0</y>
     </hint>
    </hints>
   </connection>
@@ -357,7 +483,7 @@ background-color: #1e1e1e;
      <y>31</y>
     </hint>
     <hint type="destinationlabel">
-     <x>841</x>
+     <x>817</x>
      <y>52</y>
     </hint>
    </hints>
@@ -390,7 +516,7 @@ background-color: #1e1e1e;
     </hint>
     <hint type="destinationlabel">
      <x>334</x>
-     <y>-44</y>
+     <y>0</y>
     </hint>
    </hints>
   </connection>
@@ -406,7 +532,7 @@ background-color: #1e1e1e;
     </hint>
     <hint type="destinationlabel">
      <x>188</x>
-     <y>-86</y>
+     <y>0</y>
     </hint>
    </hints>
   </connection>
@@ -422,7 +548,87 @@ background-color: #1e1e1e;
     </hint>
     <hint type="destinationlabel">
      <x>125</x>
-     <y>-16</y>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>preview</sender>
+   <signal>clicked()</signal>
+   <receiver>XViewerClass</receiver>
+   <slot>Preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>258</x>
+     <y>-44</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>playback</sender>
+   <signal>clicked()</signal>
+   <receiver>XViewerClass</receiver>
+   <slot>Playback()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>332</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>265</x>
+     <y>-72</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cam_list</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>XViewerClass</receiver>
+   <slot>SelectCamera(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>118</x>
+     <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>-57</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cal</sender>
+   <signal>clicked(QDate)</signal>
+   <receiver>XViewerClass</receiver>
+   <slot>SelectDate(QDate)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>542</x>
+     <y>267</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>539</x>
+     <y>-94</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>time_list</sender>
+   <signal>activated(QModelIndex)</signal>
+   <receiver>XViewerClass</receiver>
+   <slot>PlayVideo(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>301</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>402</x>
+     <y>-39</y>
     </hint>
    </hints>
   </connection>
@@ -433,5 +639,10 @@ background-color: #1e1e1e;
   <slot>AddCam()</slot>
   <slot>SetCam()</slot>
   <slot>DelCam()</slot>
+  <slot>Preview()</slot>
+  <slot>Playback()</slot>
+  <slot>SelectCamera(QModelIndex)</slot>
+  <slot>SelectDate(QDate)</slot>
+  <slot>PlayVideo(QModelIndex)</slot>
  </slots>
 </ui>

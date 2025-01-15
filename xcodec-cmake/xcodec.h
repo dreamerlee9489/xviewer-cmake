@@ -23,58 +23,44 @@
 *****************************************************************************
 //！！！！！！！！！FFmpeg 4.2 从基础实战-多路H265监控录放开发 实训课 课程  QQ群：639014264下载代码和学员交流*/
 #pragma once
+#include "xtools.h"
+#include <mutex>
+#include <vector>
 
-#include <QtWidgets/QWidget>
-#include "ui_xviewer.h"
-#include <QMenu>
-class XViewer : public QWidget
+
+////////////////////////////////////////////
+//// 编码和解码的基类
+class XCODEC_API XCodec
 {
-    Q_OBJECT
-
 public:
-    XViewer(QWidget *parent = Q_NULLPTR);
+    //////////////////////////////////////////
+    /// 创建编解码上下文
+    /// @para codec_id 编码器ID号，对应ffmpeg
+    /// @return 编码上下文 ,失败返回nullptr
+    static AVCodecContext* Create(int codec_id,bool is_encode);
 
-    //鼠标事件 用于拖动窗口
-    void mouseMoveEvent(QMouseEvent* ev) override;
-    void mousePressEvent(QMouseEvent* ev) override;
-    void mouseReleaseEvent(QMouseEvent* ev) override;
+    //////////////////////////////////////////
+    /// 设置对象的编码器上下文 上下文传递到对象中，资源由XEncode维护
+    /// 加锁 线程安全
+    /// @para c 编码器上下文 如果c_不为nullptr，则先清理资源
+    void set_c(AVCodecContext* c);
 
-    //窗口大小发生编码
-    void resizeEvent(QResizeEvent* ev) override;
-    //右键菜单
-    void contextMenuEvent(QContextMenuEvent* event) override;
+    /////////////////////////////////////////////
+    /// 设置编码参数，线程安全
+    bool SetOpt(const char* key, const char* val);
+    bool SetOpt(const char* key, int val);
 
-    //预览视频窗口
-    void View(int count);
+    //////////////////////////////////////////////////////////////
+    /// 打开编码器 线程安全
+    bool Open();
 
-    //刷新左侧相机列表
-    void RefreshCams();
+    ///////////////////////////////////////////////////////////////
+    //根据AVCodecContext 创建一个AVFrame，需要调用者释放av_frame_free
+    AVFrame* CreateFrame();
 
-    //编辑摄像机
-    void SetCam(int index);
 
-    //定时器渲染视频 回调函数
-    void timerEvent(QTimerEvent* ev) override;
-public slots:
-    void MaxWindow();
-    void NormalWindow();
-    void View1();
-    void View4();
-    void View9();
-    void View16();
-    void AddCam();  //新增摄像机配置
-    void SetCam();  //
-    void DelCam();  //
-
-    void StartRecord(); //开始全部摄像头录制
-    void StopRecord();  //停止全部摄像头录制
-    void Preview();//预览界面
-    void Playback();//回放界面
-
-    void SelectCamera(QModelIndex index);//选择摄像机
-    void SelectDate(QDate date);        //选择日期
-    void PlayVideo(QModelIndex index);  //选择时间播放视频
-private:
-    Ui::XViewerClass ui;
-    QMenu left_menu_;
+protected:
+    AVCodecContext* c_ = nullptr;  //编码器上下文
+    std::mutex mux_;               //编码器上下文锁
 };
+

@@ -22,59 +22,72 @@
 **
 *****************************************************************************
 //！！！！！！！！！FFmpeg 4.2 从基础实战-多路H265监控录放开发 实训课 课程  QQ群：639014264下载代码和学员交流*/
-#pragma once
-
-#include <QtWidgets/QWidget>
-#include "ui_xviewer.h"
-#include <QMenu>
-class XViewer : public QWidget
+#include "xmux_task.h"
+extern "C"
 {
-    Q_OBJECT
+#include <libavformat/avformat.h>
+}
+using namespace std;
+void XMuxTask::Do(AVPacket* pkt)
+{
+    pkts_.Push(pkt);
+    Next(pkt);
+}
+void XMuxTask::Main()
+{
+    xmux_.WriteHead();
 
-public:
-    XViewer(QWidget *parent = Q_NULLPTR);
+    //找到关键帧
+    while (!is_exit_)
+    {
+        unique_lock<mutex> lock(mux_);
+        auto pkt = pkts_.Pop();
+        if (!pkt)
+        {
+            MSleep(1);
+            continue;
+        }
+        if(pkt->stream_index == xmux_.video_index()
+            && pkt->flags & AV_PKT_FLAG_KEY) //关键帧
+        {
+            xmux_.Write(pkt);
+            av_packet_free(&pkt);
+            break;
+        }
+        //丢掉非视频关键帧
+        av_packet_free(&pkt);
+    }
 
-    //鼠标事件 用于拖动窗口
-    void mouseMoveEvent(QMouseEvent* ev) override;
-    void mousePressEvent(QMouseEvent* ev) override;
-    void mouseReleaseEvent(QMouseEvent* ev) override;
 
-    //窗口大小发生编码
-    void resizeEvent(QResizeEvent* ev) override;
-    //右键菜单
-    void contextMenuEvent(QContextMenuEvent* event) override;
+    while (!is_exit_)
+    {
+        unique_lock<mutex> lock(mux_);
+        auto pkt = pkts_.Pop();
+        if (!pkt)
+        {
+            MSleep(1);
+            continue;
+        }
 
-    //预览视频窗口
-    void View(int count);
+        xmux_.Write(pkt);
+        cout << "W"<< flush;
 
-    //刷新左侧相机列表
-    void RefreshCams();
-
-    //编辑摄像机
-    void SetCam(int index);
-
-    //定时器渲染视频 回调函数
-    void timerEvent(QTimerEvent* ev) override;
-public slots:
-    void MaxWindow();
-    void NormalWindow();
-    void View1();
-    void View4();
-    void View9();
-    void View16();
-    void AddCam();  //新增摄像机配置
-    void SetCam();  //
-    void DelCam();  //
-
-    void StartRecord(); //开始全部摄像头录制
-    void StopRecord();  //停止全部摄像头录制
-    void Preview();//预览界面
-    void Playback();//回放界面
-
-    void SelectCamera(QModelIndex index);//选择摄像机
-    void SelectDate(QDate date);        //选择日期
-    void PlayVideo(QModelIndex index);  //选择时间播放视频
-private:
-    Ui::XViewerClass ui;
-    QMenu left_menu_;
-};
+        av_packet_free(&pkt);
+    }
+    xmux_.WriteEnd();
+    xmux_.set_c(nullptr);
+}
+bool XMuxTask::Open(const char* url,
+    AVCodecParameters* video_para,
+    AVRational* video_time_base,
+    AVCodecParameters* audio_para ,
+    AVRational* audio_time_base 
+)
+{
+    auto c = xmux_.Open(url,video_para,audio_para);
+    if (!c)return false;
+    xmux_.set_c(c);
+    xmux_.set_src_video_time_base(video_time_base);
+    xmux_.set_src_audio_time_base(audio_time_base);
+    return true;
+}

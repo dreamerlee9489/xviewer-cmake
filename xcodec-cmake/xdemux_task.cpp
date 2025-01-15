@@ -22,59 +22,58 @@
 **
 *****************************************************************************
 //！！！！！！！！！FFmpeg 4.2 从基础实战-多路H265监控录放开发 实训课 课程  QQ群：639014264下载代码和学员交流*/
-#pragma once
-
-#include <QtWidgets/QWidget>
-#include "ui_xviewer.h"
-#include <QMenu>
-class XViewer : public QWidget
+#include "xdemux_task.h"
+extern "C"
 {
-    Q_OBJECT
+#include <libavformat/avformat.h>
+}
+using namespace std;
+bool XDemuxTask::Open(std::string url, int timeout_ms)
+{
+ 
+    LOGDEBUG("XDemuxTask::Open begin!");
+    demux_.set_c(nullptr);//断开之前的连接
+    this->url_ = url;
+    this->timeout_ms_ = timeout_ms;
+    auto c = demux_.Open(url.c_str());
+    if (!c)return false;
+    demux_.set_c(c);
+    demux_.set_time_out_ms(timeout_ms);
+    LOGDEBUG("XDemuxTask::Open end!");
+    return true;
+}
+void XDemuxTask::Main()
+{
+    AVPacket pkt;
+    while (!is_exit_)
+    {
+        if (!demux_.Read(&pkt))
+        {
+            //读取失败
+            cout << "-" << flush;
+            if (!demux_.is_connected())
+            {
+                Open(url_, timeout_ms_);
+            }
 
-public:
-    XViewer(QWidget *parent = Q_NULLPTR);
+            this_thread::sleep_for(1ms);
+            continue;
+        }
 
-    //鼠标事件 用于拖动窗口
-    void mouseMoveEvent(QMouseEvent* ev) override;
-    void mousePressEvent(QMouseEvent* ev) override;
-    void mouseReleaseEvent(QMouseEvent* ev) override;
+        //播放速度控制
+        cout << "." << flush;
+        if (syn_type_ == XSYN_VIDEO &&
+            pkt.stream_index == demux_.video_index())
+        {
+            auto dur = demux_.RescaleToMs(pkt.duration, pkt.stream_index);
+            if (dur <= 0)
+                dur = 40;
+            //pkt.duration
+            MSleep(dur);
+        }
+        Next(&pkt);
+        av_packet_unref(&pkt);
 
-    //窗口大小发生编码
-    void resizeEvent(QResizeEvent* ev) override;
-    //右键菜单
-    void contextMenuEvent(QContextMenuEvent* event) override;
-
-    //预览视频窗口
-    void View(int count);
-
-    //刷新左侧相机列表
-    void RefreshCams();
-
-    //编辑摄像机
-    void SetCam(int index);
-
-    //定时器渲染视频 回调函数
-    void timerEvent(QTimerEvent* ev) override;
-public slots:
-    void MaxWindow();
-    void NormalWindow();
-    void View1();
-    void View4();
-    void View9();
-    void View16();
-    void AddCam();  //新增摄像机配置
-    void SetCam();  //
-    void DelCam();  //
-
-    void StartRecord(); //开始全部摄像头录制
-    void StopRecord();  //停止全部摄像头录制
-    void Preview();//预览界面
-    void Playback();//回放界面
-
-    void SelectCamera(QModelIndex index);//选择摄像机
-    void SelectDate(QDate date);        //选择日期
-    void PlayVideo(QModelIndex index);  //选择时间播放视频
-private:
-    Ui::XViewerClass ui;
-    QMenu left_menu_;
-};
+        this_thread::sleep_for(1ms);
+    }
+}

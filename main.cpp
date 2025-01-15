@@ -25,16 +25,21 @@
 #include "xviewer.h"
 #include <QtWidgets/QApplication>
 #include <QDebug>
+#include <QDir>
 #include "xcamera_config.h"
 #define TEST_CAM_PATH "test.db"
 #include "xcamera_record.h"
 int main(int argc, char *argv[])
 {
-    XCameraRecord xr;
-    xr.set_rtsp_url(
-        "rtsp://test:x12345678@192.168.2.64/h264/ch1/main/av_stream");
-    xr.set_save_path("./test.mp4");
-    xr.Start();
+    const char* save_path = "./video/0/";
+    QDir dir;
+    dir.mkpath(save_path);
+
+    //XCameraRecord xr;
+    //xr.set_rtsp_url(
+    //    "rtsp://test:x12345678@192.168.2.64/h264/ch1/main/av_stream");
+    //xr.set_save_path(save_path);
+    //xr.Start();
 
 
     /*auto* xc = XCameraConfig::Instance();
@@ -92,5 +97,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     XViewer w;
     w.show();
-    return a.exec();
+    auto re = a.exec();
+    //xr.Stop();
+    return re;
 }

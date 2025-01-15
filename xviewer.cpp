@@ -37,14 +37,112 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <sstream>
+#include <QDir>
+#include <map>
+#include <vector>
 #include <cmath>
 #include "xcamera_widget.h"
+#include "xcamera_record.h"
+#include "xplayvideo.h"
 using namespace std;
 #define CAM_CONF_PATH "cams.db"
 //�����������
 #define C(s) QString::fromLocal8Bit(s)
 
+//��Ⱦ����
 static XCameraWidget * cam_wids[16] = { 0 };
+
+//��Ƶ¼��
+static vector<XCameraRecord*> records;
+
+//�洢��Ƶ����ʱ��
+struct XCamVideo
+{
+    QString filepath;
+    QDateTime datetime;
+};
+static map<QDate, vector<XCamVideo> > cam_videos;
+
+void XViewer::SelectCamera(QModelIndex index)//ѡ�������
+{
+    qDebug() << "SelectCamera" << index.row();
+    auto conf = XCameraConfig::Instance();
+    auto cam = conf->GetCam(index.row()); //��ȡ�������
+    if (cam.name[0] == '\0')
+    {
+        return;
+    }
+    //�����Ƶ�洢·��
+    stringstream ss;
+    ss << cam.save_path << "/" << index.row() << "/";
+
+    //������Ŀ¼
+    QDir dir(C(ss.str().c_str()));
+    if (!dir.exists())
+        return;
+    //��ȡĿ¼���ļ��б�
+    QStringList filters;
+    filters << "*.mp4" << "*.avi";
+    dir.setNameFilters(filters);//ɸѡ
+
+    //�����������������
+    ui.cal->ClearDate();
+    cam_videos.clear();
+
+    //�����ļ��б�
+    auto files = dir.entryInfoList();
+    for (auto file : files)
+    {
+        //"cam_2020_09_04_17_54_58.mp4"
+        QString filename = file.fileName();
+
+        //ȥ��cam_ �� .mp4
+        auto tmp = filename.left(filename.size() - 4);
+        tmp = tmp.right(tmp.length() - 4);
+        //2020_09_04_17_54_58
+        auto dt = QDateTime::fromString(tmp,"yyyy_MM_dd_hh_mm_ss");
+        qDebug() << dt.date();
+        ui.cal->AddDate(dt.date());
+        //qDebug() << file.fileName();
+
+        XCamVideo video;
+        video.datetime = dt;
+        video.filepath = file.absoluteFilePath();
+        cam_videos[dt.date()].push_back(video);
+    }
+
+    //������ʾ����
+    ui.cal->showNextMonth();
+    ui.cal->showPreviousMonth();
+}
+
+void XViewer::SelectDate(QDate date)        //ѡ������
+{
+    qDebug() << "SelectDate" << date.toString();
+    auto dates = cam_videos[date];
+    ui.time_list->clear();
+    for (auto d : dates)
+    {
+        auto item = new QListWidgetItem(d.datetime.time().toString());
+
+        //item �����Զ������� �ļ�·��
+        item->setData(Qt::UserRole, d.filepath);
+        ui.time_list->addItem(item);
+    }
+}
+void XViewer::PlayVideo(QModelIndex index)  //ѡ��ʱ�䲥����Ƶ
+{
+    qDebug() << "PlayVideo" << index.row();
+    auto item = ui.time_list->currentItem();
+    if (!item)return;
+    QString path = item->data(Qt::UserRole).toString();
+    qDebug() << path;
+    static XPlayVideo play;
+    play.Open(path.toLocal8Bit());
+    play.show();
+
+}
+
 
 void XViewer::View1()
 {
@@ -117,6 +215,45 @@ void XViewer::timerEvent(QTimerEvent* ev)
     }
 
 }
+
+void XViewer::StartRecord() //��ʼȫ������ͷ¼��
+{
+    StopRecord();
+    qDebug() << "��ʼȫ������ͷ¼��";
+    ui.status->setText(C("¼���С�����"));
+    //��ȡ�����б� 
+    auto conf = XCameraConfig::Instance();
+    int count = conf->GetCamCount();
+    for (int i = 0; i < count; i++)
+    {
+        auto cam = conf->GetCam(i);
+        stringstream ss;
+        ss << cam.save_path << "/" << i << "/";
+        QDir dir;
+        dir.mkpath(ss.str().c_str());
+        
+        XCameraRecord *rec = new XCameraRecord();
+        rec->set_rtsp_url(cam.url);
+        rec->set_save_path(ss.str());
+        rec->set_file_sec(5);
+        rec->Start();
+        records.push_back(rec);
+    }
+
+    //����¼��Ŀ¼
+    //�ֱ�ʼ¼���߳�
+}
+void XViewer::StopRecord()  //ֹͣȫ������ͷ¼��
+{
+    ui.status->setText(C("����С�����"));
+    for (auto rec : records)
+    {
+        rec->Stop();
+        delete rec;
+    }
+    records.clear();
+}
+
 void XViewer::contextMenuEvent(QContextMenuEvent* event)
 {
     //���λ����ʾ�Ҽ��˵�
@@ -260,6 +397,18 @@ void XViewer::RefreshCams()
         ui.cam_list->addItem(item);
     }
 }
+void XViewer::Preview()//Ԥ������
+{
+    ui.cams->show();
+    ui.playback_wid->hide();
+    ui.preview->setChecked(true);
+}
+void XViewer::Playback()//�طŽ���
+{
+    ui.cams->hide();
+    ui.playback_wid->show();
+    ui.playback->setChecked(true);
+}
 XViewer::XViewer(QWidget *parent)
     : QWidget(parent)
 {
@@ -284,8 +433,10 @@ XViewer::XViewer(QWidget *parent)
     ui.body->setLayout(hlay);
     //�߿���
     hlay->setContentsMargins(0, 0, 0, 0);
-    hlay->addWidget(ui.left);
-    hlay->addWidget(ui.cams);
+    hlay->addWidget(ui.left);   //�������б�
+    hlay->addWidget(ui.cams);   //�Ҳ�Ԥ������
+    hlay->addWidget(ui.playback_wid);//�طŴ���
+
 
 
 
@@ -302,7 +453,10 @@ XViewer::XViewer(QWidget *parent)
     connect(a, SIGNAL(triggered()), this, SLOT(View9()));
     a = m->addAction(C("16����"));
     connect(a, SIGNAL(triggered()), this, SLOT(View16()));
-
+    a = left_menu_.addAction(C("ȫ����ʼ¼��"));
+    connect(a, SIGNAL(triggered()), this, SLOT(StartRecord()));
+    a = left_menu_.addAction(C("ȫ��ֹͣ¼��"));
+    connect(a, SIGNAL(triggered()), this, SLOT(StopRecord()));
     //Ĭ�ϾŴ���
     View9();
 
@@ -320,11 +474,12 @@ XViewer::XViewer(QWidget *parent)
     //        "rtsp://test:x12345678@192.168.2.64/h264/ch1/sub/av_stream");
     //    XCameraConfig::Instance()->Push(cd);
     //}
-
+    ui.time_list->clear();
     RefreshCams();
 
     //������ʱ����Ⱦ��Ƶ
     startTimer(1);
+    Preview();//Ĭ����ʾԤ��
 }
 void XViewer::MaxWindow()
 {
