@@ -1,53 +1,29 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include "xtools.h"
 #include "xdecode.h"
 class XCODEC_API XDecodeTask :public XThread
 {
 public:
-    /// <summary>
-    /// ´ò¿ª½âÂëÆ÷
-    /// </summary>
-    bool Open(AVCodecParameters* para);
+	/// <summary>
+	/// ï¿½ò¿ª½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// </summary>
+	bool Open(AVCodecParameters* para);
 
-    //ÔğÈÎÁ´´¦Àíº¯Êı
-    void Do(AVPacket* pkt) override; 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void Do(AVPacket* pkt) override;
 
-    //Ïß³ÌÖ÷º¯Êı
-    void Main() override;
+	//ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void Main() override;
 
-    // Ïß³Ì°²È«£¬·µ»Øµ±Ç°ĞèÒªäÖÈ¾µÄAVFrame£¬Èç¹ûÃ»ÓĞ·µ»Ønullptr
-    // need_view_¿ØÖÆäÖÈ¾
-    // ·µ»Ø½á¹ûĞèÒªÓÃ XFreeFrame ÊÍ·Å
-    AVFrame* GetFrame();
+	// ï¿½ß³Ì°ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½Ç°ï¿½ï¿½Òªï¿½ï¿½È¾ï¿½ï¿½AVFrameï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ğ·ï¿½ï¿½ï¿½nullptr
+	// need_view_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¾
+	// ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ XFreeFrame ï¿½Í·ï¿½
+	AVFrame* GetFrame();
 private:
-    std::mutex mux_;
-    XDecode decode_;
-    XAVPacketList pkt_list_;
-    AVFrame* frame_ = nullptr;//½âÂëºó´æ´¢
-    bool need_view_ = false;    //ÊÇ·ñĞèÒªäÖÈ¾£¬Ã¿Ö¡Ö»äÖÈ¾Ò»´Î£¬Í¨¹ıGetFrame
+	std::mutex mux_;
+	XDecode decode_;
+	XAVPacketList pkt_list_;
+	AVFrame* frame_ = nullptr;//ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢
+	bool need_view_ = false;    //ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½È¾ï¿½ï¿½Ã¿Ö¡Ö»ï¿½ï¿½È¾Ò»ï¿½Î£ï¿½Í¨ï¿½ï¿½GetFrame
 };
 

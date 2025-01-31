@@ -1,61 +1,37 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ÐÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include "xtools.h"
 #include "xdemux.h"
 enum XSYN_TYPE
 {
-    XSYN_NONE = 0,  //²»×öÍ¬²½
-    XSYN_VIDEO = 1, //¸ù¾ÝÊÓÆµÍ¬²½£¬²»´¦ÀíÒôÆµ
+	XSYN_NONE = 0,  //ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½
+	XSYN_VIDEO = 1, //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÍ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµ
 };
 class XCODEC_API XDemuxTask :public XThread
 {
 public:
-    void Main();
-    /// <summary>
-    /// ´ò¿ª½â·â×°
-    /// </summary>
-    /// <param name="url">rtspµØÖ·</param>
-    /// <param name="timeout_ms">³¬Ê±Ê±¼ä µ¥Î»ºÁÃë</param>
-    /// <returns></returns>
-    bool Open(std::string url,int timeout_ms = 1000);
+	void Main();
+	/// <summary>
+	/// ï¿½ò¿ª½ï¿½ï¿½×°
+	/// </summary>
+	/// <param name="url">rtspï¿½ï¿½Ö·</param>
+	/// <param name="timeout_ms">ï¿½ï¿½Ê±Ê±ï¿½ï¿½ ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½</param>
+	/// <returns></returns>
+	bool Open(std::string url, int timeout_ms = 1000);
 
-    //¸´ÖÆÊÓÆµ²ÎÊý
-    std::shared_ptr<XPara> CopyVideoPara()
-    {
-        return demux_.CopyVideoPara();
-    }
-    std::shared_ptr<XPara> CopyAudioPara()
-    {
-        return demux_.CopyAudioPara();
-    }
-    void set_syn_type(XSYN_TYPE t) { syn_type_ = t; }
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+	std::shared_ptr<XPara> CopyVideoPara()
+	{
+		return demux_.CopyVideoPara();
+	}
+	std::shared_ptr<XPara> CopyAudioPara()
+	{
+		return demux_.CopyAudioPara();
+	}
+	void set_syn_type(XSYN_TYPE t) { syn_type_ = t; }
 private:
-    XDemux demux_;
-    std::string url_;
-    int timeout_ms_ = 0;//³¬Ê±Ê±¼ä
-    XSYN_TYPE syn_type_ = XSYN_NONE;
+	XDemux demux_;
+	std::string url_;
+	int timeout_ms_ = 0;//ï¿½ï¿½Ê±Ê±ï¿½ï¿½
+	XSYN_TYPE syn_type_ = XSYN_NONE;
 };
 

@@ -1,27 +1,3 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #include "xcamera_record.h"
 #include "xdemux_task.h"
 #include "xmux_task.h"
@@ -31,98 +7,98 @@
 using namespace std;
 using namespace chrono;
 
-/// Éú³É´æ´¢µÄÊÓÆµÎÄ¼şÃû
+/// ï¿½ï¿½ï¿½É´æ´¢ï¿½ï¿½ï¿½ï¿½Æµï¿½Ä¼ï¿½ï¿½ï¿½
 static std::string GetFileName(string path)
 {
-    stringstream ss;
-    //»ñÈ¡µ±Ç°Ê±¼ä
-    auto t = system_clock::to_time_t(system_clock::now());
-    auto time_str = put_time(localtime(&t), "%Y_%m_%d_%H_%M_%S");
-    ss << path << "/" << "cam_"<<time_str<<".mp4";
-    return ss.str();
+	stringstream ss;
+	//ï¿½ï¿½È¡ï¿½ï¿½Ç°Ê±ï¿½ï¿½
+	auto t = system_clock::to_time_t(system_clock::now());
+	auto time_str = put_time(localtime(&t), "%Y_%m_%d_%H_%M_%S");
+	ss << path << "/" << "cam_" << time_str << ".mp4";
+	return ss.str();
 }
 
 void XCameraRecord::Main()
 {
-    XDemuxTask demux;
-    XMuxTask mux;
-    if (rtsp_url_.empty())
-    {
-        LOGERROR("open rtsp url failed!");
-        return;
-    }
+	XDemuxTask demux;
+	XMuxTask mux;
+	if (rtsp_url_.empty())
+	{
+		LOGERROR("open rtsp url failed!");
+		return;
+	}
 
-    //×Ô¶¨ÖØÁ¬
-    while (!is_exit_)
-    {
-        if (demux.Open(rtsp_url_)) //×î»µÇé¿ö×èÈû1Ãë
-        {
-            break;
-        }
-        MSleep(3000);
-        continue;
-    }
-    //ÒôÊÓÆµ²ÎÊı
-    auto vpara = demux.CopyVideoPara();
-    if (!vpara)
-    {
-        LOGERROR("demux.CopyVideoPara failed!");
-        //ĞèÒª¿¼ÂÇdemux ×ÊÔ´ÊÍ·ÅµÄÎÊÌâ
-        demux.Stop();
-        return;
-    }
-    //Æô¶¯½â·â×°Ïß³Ì£¬ÌáÇ°Æô¶¯£¬·ÀÖ¹³¬Ê±
-    demux.Start();
+	//ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
+	while (!is_exit_)
+	{
+		if (demux.Open(rtsp_url_)) //ï¿½î»µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½
+		{
+			break;
+		}
+		MSleep(3000);
+		continue;
+	}
+	//ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+	auto vpara = demux.CopyVideoPara();
+	if (!vpara)
+	{
+		LOGERROR("demux.CopyVideoPara failed!");
+		//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½demux ï¿½ï¿½Ô´ï¿½Í·Åµï¿½ï¿½ï¿½ï¿½ï¿½
+		demux.Stop();
+		return;
+	}
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ß³Ì£ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½Ê±
+	demux.Start();
 
-    auto apara = demux.CopyAudioPara();
+	auto apara = demux.CopyAudioPara();
 
-    AVCodecParameters* para = nullptr;  //ÒôÆµ²ÎÊı
-    AVRational* timebase = nullptr;     //ÒôÆµÊ±¼ä»ùÊı
-    if (apara)
-    {
-        para = apara->para;
-        timebase = apara->time_base;
-    }
+	AVCodecParameters* para = nullptr;  //ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+	AVRational* timebase = nullptr;     //ï¿½ï¿½ÆµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½
+	if (apara)
+	{
+		para = apara->para;
+		timebase = apara->time_base;
+	}
 
-    //´ò¿ªÁË·â×°
-    if (!mux.Open(GetFileName(save_path_).c_str(),
-        vpara->para, vpara->time_base,//ÊÓÆµ²ÎÊı
-        para, timebase))            //ÒôÆµ²ÎÊı
-    {
-        LOGERROR("mux.Open rtsp_url_ failed!");
-        demux.Stop();
-        mux.Stop();
-        return;
-    }
-    demux.set_next(&mux);
-    mux.Start();
+	//ï¿½ï¿½ï¿½Ë·ï¿½×°
+	if (!mux.Open(GetFileName(save_path_).c_str(),
+		vpara->para, vpara->time_base,//ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+		para, timebase))            //ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+	{
+		LOGERROR("mux.Open rtsp_url_ failed!");
+		demux.Stop();
+		mux.Stop();
+		return;
+	}
+	demux.set_next(&mux);
+	mux.Start();
 
-    //µ±Ç°Ê±¼ä
-    auto cur = NowMs();
+	//ï¿½ï¿½Ç°Ê±ï¿½ï¿½
+	auto cur = NowMs();
 
-    while (!is_exit_)
-    {
-        //¶¨Ê±´´½¨ĞÂµÄÎÄ¼ş
-        if (NowMs() - cur > file_sec_ * 1000)
-        {
-            cur = NowMs();
-            mux.Stop(); //Í£Ö¹´æ´¢£¬Ğ´ÈëË÷Òı
-            //´ò¿ªÁË·â×°
-            if (!mux.Open(GetFileName(save_path_).c_str(),
-                vpara->para, vpara->time_base,//ÊÓÆµ²ÎÊı
-                para, timebase))            //ÒôÆµ²ÎÊı
-            {
-                LOGERROR("mux.Open rtsp_url_ failed!");
-                demux.Stop();
-                mux.Stop();
-                return;
-            }
-            mux.Start();
-        }
+	while (!is_exit_)
+	{
+		//ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½
+		if (NowMs() - cur > file_sec_ * 1000)
+		{
+			cur = NowMs();
+			mux.Stop(); //Í£Ö¹ï¿½æ´¢ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			//ï¿½ï¿½ï¿½Ë·ï¿½×°
+			if (!mux.Open(GetFileName(save_path_).c_str(),
+				vpara->para, vpara->time_base,//ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+				para, timebase))            //ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+			{
+				LOGERROR("mux.Open rtsp_url_ failed!");
+				demux.Stop();
+				mux.Stop();
+				return;
+			}
+			mux.Start();
+		}
 
-        MSleep(10);
-    }
-    
-    mux.Stop();
-    demux.Stop();
+		MSleep(10);
+	}
+
+	mux.Stop();
+	demux.Stop();
 }

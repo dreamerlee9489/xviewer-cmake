@@ -1,31 +1,7 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include "xtools.h"
 /// <summary>
-/// ·â×°ºÍ½â·â×°»ùÀà
+/// ï¿½ï¿½×°ï¿½Í½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
 /// </summary>
 #include <mutex>
 struct AVFormatContext;
@@ -34,70 +10,70 @@ struct AVPacket;
 struct AVCodecContext;
 struct XRational
 {
-    int num; ///< Numerator
-    int den; ///< Denominator
+	int num; ///< Numerator
+	int den; ///< Denominator
 };
 class XCODEC_API XFormat
 {
 public:
-    /// <summary>
-    /// ¸´ÖÆ²ÎÊı Ïß³Ì°²È«
-    /// </summary>
-    /// <param name="stream_index">¶ÔÓ¦c_->streams ÏÂ±ê</param>
-    /// <param name="dst">Êä³ö²ÎÊı</param>
-    /// <returns>ÊÇ·ñ³É¹¦</returns>
-    bool CopyPara(int stream_index, AVCodecParameters* dst);
-    bool CopyPara(int stream_index, AVCodecContext* dts);
+	/// <summary>
+	/// ï¿½ï¿½ï¿½Æ²ï¿½ï¿½ï¿½ ï¿½ß³Ì°ï¿½È«
+	/// </summary>
+	/// <param name="stream_index">ï¿½ï¿½Ó¦c_->streams ï¿½Â±ï¿½</param>
+	/// <param name="dst">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+	/// <returns>ï¿½Ç·ï¿½É¹ï¿½</returns>
+	bool CopyPara(int stream_index, AVCodecParameters* dst);
+	bool CopyPara(int stream_index, AVCodecContext* dts);
 
-    //·µ»ØÖÇÄÜÖ¸Õë ¸´ÖÆÊÓÆµ²ÎÊı
-    std::shared_ptr<XPara> CopyVideoPara();
-    std::shared_ptr<XPara> CopyAudioPara();
-    /// <summary>
-    /// ÉèÖÃÉÏÏÂÎÄ£¬²¢ÇÒÇåÀíÉÏ´ÎµÄÉèÖÃµÄÖµ£¬Èç¹û´«µİNULL£¬Ïàµ±ÓÚ¹Ø±ÕÉÏÏÂÎÄ3
-    /// Ïß³Ì°²È«
-    /// </summary>
-    /// <param name="c"></param>
-    void set_c(AVFormatContext* c);
-    int audio_index() { return audio_index_; }
-    int video_index() { return video_index_; }
-    XRational video_time_base(){ return video_time_base_; }
-    XRational audio_time_base() { return audio_time_base_; }
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+	std::shared_ptr<XPara> CopyVideoPara();
+	std::shared_ptr<XPara> CopyAudioPara();
+	/// <summary>
+	/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Îµï¿½ï¿½ï¿½ï¿½Ãµï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NULLï¿½ï¿½ï¿½àµ±ï¿½Ú¹Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3
+	/// ï¿½ß³Ì°ï¿½È«
+	/// </summary>
+	/// <param name="c"></param>
+	void set_c(AVFormatContext* c);
+	int audio_index() { return audio_index_; }
+	int video_index() { return video_index_; }
+	XRational video_time_base() { return video_time_base_; }
+	XRational audio_time_base() { return audio_time_base_; }
 
-    //¸ù¾İtimebase»»ËãÊ±¼ä
-    bool RescaleTime(AVPacket *pkt,long long offset_pts, XRational time_base);
-    bool RescaleTime(AVPacket* pkt, long long offset_pts, AVRational* time_base);
-    //°Ñpts dts duration Öµ×ªÎªºÁÃë
-    long long RescaleToMs(long long pts, int index);
+	//ï¿½ï¿½ï¿½ï¿½timebaseï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	bool RescaleTime(AVPacket* pkt, long long offset_pts, XRational time_base);
+	bool RescaleTime(AVPacket* pkt, long long offset_pts, AVRational* time_base);
+	//ï¿½ï¿½pts dts duration Öµ×ªÎªï¿½ï¿½ï¿½ï¿½
+	long long RescaleToMs(long long pts, int index);
 
-    int video_codec_id() { return video_codec_id_; }
+	int video_codec_id() { return video_codec_id_; }
 
-    //ÅĞ¶ÏÊÇ·ñ³¬Ê±
-    bool IsTimeout()
-    {
-        if (NowMs() - last_time_ > time_out_ms_) //³¬Ê±
-        {
-            last_time_ = NowMs();
-            is_connected_ = false;
-            return true;
-        }
-            
-        return false;
-    }
+	//ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½Ê±
+	bool IsTimeout()
+	{
+		if (NowMs() - last_time_ > time_out_ms_) //ï¿½ï¿½Ê±
+		{
+			last_time_ = NowMs();
+			is_connected_ = false;
+			return true;
+		}
 
-    //Éè¶¨³¬Ê±Ê±¼ä
-    void set_time_out_ms(int ms);
+		return false;
+	}
 
-    bool is_connected() { return is_connected_; }
+	//ï¿½è¶¨ï¿½ï¿½Ê±Ê±ï¿½ï¿½
+	void set_time_out_ms(int ms);
+
+	bool is_connected() { return is_connected_; }
 protected:
-    int time_out_ms_ = 0;           //³¬Ê±Ê±¼ä ºÁÃë
-    long long last_time_ = 0;       //ÉÏ´Î½ÓÊÕµ½Êı¾İµÄÊ±¼ä
-    bool is_connected_ = false;     //ÊÇ·ñÁ¬½Ó³É¹¦
-    AVFormatContext* c_ = nullptr;  //·â×°½â·â×°ÉÏÏÂÎÄ
-    std::mutex mux_;                //c_ ×ÊÔ´»¥³â
-    int video_index_ = 0;           //videoºÍaudioÔÚstreamÖĞË÷Òı
-    int audio_index_ = 1;
-    XRational video_time_base_ = {1,25};
-    XRational audio_time_base_ = {1,9000};
-    int video_codec_id_ = 0;       //±àÂëÆ÷ID
+	int time_out_ms_ = 0;           //ï¿½ï¿½Ê±Ê±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	long long last_time_ = 0;       //ï¿½Ï´Î½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½İµï¿½Ê±ï¿½ï¿½
+	bool is_connected_ = false;     //ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ó³É¹ï¿½
+	AVFormatContext* c_ = nullptr;  //ï¿½ï¿½×°ï¿½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	std::mutex mux_;                //c_ ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½
+	int video_index_ = 0;           //videoï¿½ï¿½audioï¿½ï¿½streamï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int audio_index_ = 1;
+	XRational video_time_base_ = { 1,25 };
+	XRational audio_time_base_ = { 1,9000 };
+	int video_codec_id_ = 0;       //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ID
 };
 

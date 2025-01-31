@@ -1,56 +1,32 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include "xtools.h"
 #include "xmux.h"
 class XCODEC_API XMuxTask :public XThread
 {
 public:
-    void Main() override;
-    /// <summary>
-    /// ´ò¿ª·â×°ÎÄ¼ş
-    /// </summary>
-    /// <param name="url">Êä³öµØÖ·</param>
-    /// <param name="video_para">ÊÓÆµ²ÎÊı</param>
-    /// <param name="video_time_base">ÊÓÆµÊ±¼ä»ùÊı</param>
-    /// <param name="audio_para">ÒôÆµ²ÎÊı</param>
-    /// <param name="audio_time_base">ÒôÆµµÄÊ±¼ä»ù´¡</param>
-    /// <returns></returns>
-    bool Open(const char* url,
-        AVCodecParameters* video_para = nullptr,
-        AVRational *video_time_base = nullptr,
-        AVCodecParameters *audio_para = nullptr,
-        AVRational *audio_time_base = nullptr
-        );
+	void Main() override;
+	/// <summary>
+	/// ï¿½ò¿ª·ï¿½×°ï¿½Ä¼ï¿½
+	/// </summary>
+	/// <param name="url">ï¿½ï¿½ï¿½ï¿½ï¿½Ö·</param>
+	/// <param name="video_para">ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½</param>
+	/// <param name="video_time_base">ï¿½ï¿½ÆµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+	/// <param name="audio_para">ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½</param>
+	/// <param name="audio_time_base">ï¿½ï¿½Æµï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+	/// <returns></returns>
+	bool Open(const char* url,
+		AVCodecParameters* video_para = nullptr,
+		AVRational* video_time_base = nullptr,
+		AVCodecParameters* audio_para = nullptr,
+		AVRational* audio_time_base = nullptr
+	);
 
-    //½ÓÊÕÊı¾İ
-    void Do(AVPacket* pkt);
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void Do(AVPacket* pkt);
 private:
-    XMux xmux_;
-    XAVPacketList pkts_;
-    std::mutex mux_;
+	XMux xmux_;
+	XAVPacketList pkts_;
+	std::mutex mux_;
 
 };
 

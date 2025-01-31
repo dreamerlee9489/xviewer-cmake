@@ -1,27 +1,3 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ������������ �Ĳܿ����˴��������Ϊѧϰ�ο�                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 �ӻ���ʵս-��·H265���¼�ſ��� ʵѵ��
-
-** Contact       : xiacaojun@qq.com
-**  ����   : http://blog.csdn.net/jiedichina
-**	��Ƶ�γ� : �����ƿ���	http://study.163.com/u/xiacaojun		
-			   ��Ѷ����		https://jiedi.ke.qq.com/				
-			   csdnѧԺ               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoѧԺ              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ���Ŀ���		http://www.laoxiaketang.com 
-**                              �����������ڴ���ҳ����            http://ffmpeg.club
-**  FFmpeg 4.2 �ӻ���ʵս-��·H265���¼�ſ��� ʵѵ��  �γ�Ⱥ ��639014264����Ⱥ���ش����ѧԱ����
-**                           ΢�Ź��ں�  : jiedi2007
-**		ͷ����	 : �Ĳܿ�
-**
-*****************************************************************************
-//������������������FFmpeg 4.2 �ӻ���ʵս-��·H265���¼�ſ��� ʵѵ�� �γ�  QQȺ��639014264���ش����ѧԱ����*/
 #include "xsdl.h"
 #include "xtools.h"
 #include <thread>
@@ -56,7 +32,7 @@ AVFrame* XVideoView::Read()
 	if (frame_)
 	{
 		if (frame_->width != width_
-			|| frame_->height != height_ 
+			|| frame_->height != height_
 			|| frame_->format != fmt_)
 		{
 			//�ͷ�AVFrame����ռ䣬��buf���ü�����һ
@@ -95,12 +71,12 @@ AVFrame* XVideoView::Read()
 	//��ȡһ֡����
 	if (frame_->format == AV_PIX_FMT_YUV420P)
 	{
-		ifs_.read((char*)frame_->data[0], 
+		ifs_.read((char*)frame_->data[0],
 			frame_->linesize[0] * height_);	//Y
 		ifs_.read((char*)frame_->data[1],
-			frame_->linesize[1] * height_/2);	//U
-		ifs_.read((char*)frame_->data[2], 
-			frame_->linesize[2] * height_/2);	//V
+			frame_->linesize[1] * height_ / 2);	//U
+		ifs_.read((char*)frame_->data[2],
+			frame_->linesize[2] * height_ / 2);	//V
 	}
 	else	//RGBA ARGB BGRA 32
 	{
@@ -123,7 +99,7 @@ bool XVideoView::Open(std::string filepath)
 	{
 		ifs_.close();
 	}
-	ifs_.open(filepath,ios::binary);
+	ifs_.open(filepath, ios::binary);
 	return ifs_.is_open();
 }
 XVideoView* XVideoView::Create(RenderType type)
@@ -153,7 +129,7 @@ bool XVideoView::DrawFrame(AVFrame* frame)
 		beg_ms_ = clock();
 	}
 	//������ʾ֡��
-	else if((clock() - beg_ms_)/(CLOCKS_PER_SEC/1000)>=1000) //һ�����һ��fps
+	else if ((clock() - beg_ms_) / (CLOCKS_PER_SEC / 1000) >= 1000) //һ�����һ��fps
 	{
 		render_fps_ = count_;
 		count_ = 0;
@@ -188,7 +164,7 @@ bool XVideoView::DrawFrame(AVFrame* frame)
 					frame->width
 				);
 			}
-			for (int i = 0; i < frame->height/2; i++)  //UV
+			for (int i = 0; i < frame->height / 2; i++)  //UV
 			{
 				auto p = cache_ + frame->height * frame->width;// ��λY
 				memcpy(p + i * frame->width,

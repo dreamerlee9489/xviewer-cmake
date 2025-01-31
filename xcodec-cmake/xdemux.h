@@ -1,47 +1,23 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include "xformat.h"
 class XCODEC_API XDemux :public XFormat
 {
 public:
-    /// <summary>
-    /// ´ò¿ª½â·â×°
-    /// </summary>
-    /// <param name="url">½â·â×°µØÖ· Ö§³Örtsp</param>
-    /// <returns>Ê§°Ü·µ»Ønullptr</returns>
-    static AVFormatContext* Open(const char* url);
+	/// <summary>
+	/// ï¿½ò¿ª½ï¿½ï¿½×°
+	/// </summary>
+	/// <param name="url">ï¿½ï¿½ï¿½×°ï¿½ï¿½Ö· Ö§ï¿½ï¿½rtsp</param>
+	/// <returns>Ê§ï¿½Ü·ï¿½ï¿½ï¿½nullptr</returns>
+	static AVFormatContext* Open(const char* url);
 
-    /// <summary>
-    /// ¶ÁÈ¡Ò»Ö¡Êı¾İ
-    /// </summary>
-    /// <param name="pkt">Êä³öÊı¾İ</param>
-    /// <returns>ÊÇ·ñ³É¹¦</returns>
-    bool Read(AVPacket* pkt);
+	/// <summary>
+	/// ï¿½ï¿½È¡Ò»Ö¡ï¿½ï¿½ï¿½ï¿½
+	/// </summary>
+	/// <param name="pkt">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+	/// <returns>ï¿½Ç·ï¿½É¹ï¿½</returns>
+	bool Read(AVPacket* pkt);
 
-    bool Seek(long long pts,int stream_index);
+	bool Seek(long long pts, int stream_index);
 
 
 };

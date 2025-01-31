@@ -1,92 +1,68 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include <vector>
 #include <mutex>
 struct XCameraData
 {
-    char name[1024] = { 0 };
-    char url[4096] = { 0 };         //ÉãÏñ»úÖ÷ÂëÁ÷
-    char sub_url[4096] = { 0 };     //ÉãÏñ»ú¸¨ÂëÁ÷
-    char save_path[4096] = { 0 };   //ÊÓÆµÂ¼ÖÆ´æ·ÅÄ¿Â¼
+	char name[1024] = { 0 };
+	char url[4096] = { 0 };         //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char sub_url[4096] = { 0 };     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	char save_path[4096] = { 0 };   //ï¿½ï¿½ÆµÂ¼ï¿½Æ´ï¿½ï¿½Ä¿Â¼
 };
 
 class XCameraConfig
 {
 public:
 
-    //Î¨Ò»¶ÔÏóÊµÀı µ¥¼şÄ£Ê½
-    static XCameraConfig* Instance()
-    {
-        static XCameraConfig xc;
-        return &xc;
-    }
-    //²åÈëÉãÏñ»ú Ïß³Ì°²È«
-    void Push(const XCameraData& data);
+	//Î¨Ò»ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+	static XCameraConfig* Instance()
+	{
+		static XCameraConfig xc;
+		return &xc;
+	}
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß³Ì°ï¿½È«
+	void Push(const XCameraData& data);
 
-    /// <summary>
-    /// »ñÈ¡ÉãÏñÍ·
-    /// </summary>
-    /// <param name="index">ÉãÏñÍ·Ë÷Òı ´Ó0¿ªÊ¼</param>
-    /// <returns>·µ»Ø¿Õ¶ÔÏó£¬¿ÉÒÔÅĞ¶ÏnameÎª¿Õ×Ö·û´®</returns>
-    XCameraData GetCam(int index);
-
-
-    /// <summary>
-    /// ĞŞ¸ÄÉãÏñ»úÊı¾İ
-    /// </summary>
-    /// <param name="index"></param>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    bool SetCam(int index, const XCameraData& data);
-
-    bool DelCam(int index);
-
-    /// <summary>
-    /// »ñÈ¡Ïà»úÊıÁ¿
-    /// </summary>
-    /// <returns>Ê§°Ü·µ»Ø0</returns>
-    int GetCamCount();
-
-    /// <summary>
-    /// ´æ´¢ÅäÖÃÎÄ¼ş
-    /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
-    bool Save(const char* path);
+	/// <summary>
+	/// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Í·
+	/// </summary>
+	/// <param name="index">ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½0ï¿½ï¿½Ê¼</param>
+	/// <returns>ï¿½ï¿½ï¿½Ø¿Õ¶ï¿½ï¿½ó£¬¿ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½nameÎªï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½</returns>
+	XCameraData GetCam(int index);
 
 
-    /// <summary>
-    /// ¶ÁÈ¡ÅäÖÃ ´æÈëcams_
-    /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
-    bool Load(const char* path);
+	/// <summary>
+	/// ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// </summary>
+	/// <param name="index"></param>
+	/// <param name="data"></param>
+	/// <returns></returns>
+	bool SetCam(int index, const XCameraData& data);
+
+	bool DelCam(int index);
+
+	/// <summary>
+	/// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/// </summary>
+	/// <returns>Ê§ï¿½Ü·ï¿½ï¿½ï¿½0</returns>
+	int GetCamCount();
+
+	/// <summary>
+	/// ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	bool Save(const char* path);
+
+
+	/// <summary>
+	/// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½cams_
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	bool Load(const char* path);
 private:
-    XCameraConfig() {}//¹¹ÔìË½ÓĞ µ¥¼şÄ£Ê½
-    std::vector<XCameraData> cams_;
-    std::mutex mux_;
+	XCameraConfig() {}//ï¿½ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+	std::vector<XCameraData> cams_;
+	std::mutex mux_;
 };
 

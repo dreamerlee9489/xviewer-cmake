@@ -1,29 +1,4 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
-
 
 #include "xvideo_view.h"
 struct SDL_Window;
@@ -32,33 +7,33 @@ struct SDL_Texture;
 class XSDL :public XVideoView
 {
 public:
-    void Close() override;
-    ////////////////////////////////////////////////
-    /// ³õÊ¼»¯äÖÈ¾´°¿Ú Ïß³Ì°²È«
-    /// @para w ´°¿Ú¿í¶È
-    /// @para h ´°¿Ú¸ß¶È
-    /// @para fmt »æÖÆµÄÏñËØ¸ñÊ½
-    /// @para win_id ´°¿Ú¾ä±ú£¬Èç¹ûÎª¿Õ£¬´´½¨ĞÂ´°¿Ú
-    /// @return ÊÇ·ñ´´½¨³É¹¦
-    bool Init(int w, int h,
-        Format fmt = RGBA) override;
+	void Close() override;
+	////////////////////////////////////////////////
+	/// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½ï¿½ï¿½ ï¿½ß³Ì°ï¿½È«
+	/// @para w ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½
+	/// @para h ï¿½ï¿½ï¿½Ú¸ß¶ï¿½
+	/// @para fmt ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ø¸ï¿½Ê½
+	/// @para win_id ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½
+	/// @return ï¿½Ç·ñ´´½ï¿½ï¿½É¹ï¿½
+	bool Init(int w, int h,
+		Format fmt = RGBA) override;
 
-    //////////////////////////////////////////////////
-    /// äÖÈ¾Í¼Ïñ Ïß³Ì°²È«
-    ///@para data äÖÈ¾µÄ¶ş½øÖÆÊı¾İ
-    ///@para linesize Ò»ĞĞÊı¾İµÄ×Ö½ÚÊı£¬¶ÔÓÚYUV420P¾ÍÊÇYÒ»ĞĞ×Ö½ÚÊı
-    /// linesize<=0 ¾Í¸ù¾İ¿í¶ÈºÍÏñËØ¸ñÊ½×Ô¶¯Ëã³ö´óĞ¡
-    /// @return äÖÈ¾ÊÇ·ñ³É¹¦
-    bool Draw(const unsigned  char* data,
-        int linesize = 0) override;
-    bool Draw(
-        const unsigned  char* y, int y_pitch,
-        const unsigned  char* u, int u_pitch,
-        const unsigned  char* v, int v_pitch
-    ) override;
-    bool IsExit() override;
+	//////////////////////////////////////////////////
+	/// ï¿½ï¿½È¾Í¼ï¿½ï¿½ ï¿½ß³Ì°ï¿½È«
+	///@para data ï¿½ï¿½È¾ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	///@para linesize Ò»ï¿½ï¿½ï¿½ï¿½ï¿½İµï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½YUV420Pï¿½ï¿½ï¿½ï¿½YÒ»ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
+	/// linesize<=0 ï¿½Í¸ï¿½ï¿½İ¿ï¿½ï¿½Èºï¿½ï¿½ï¿½ï¿½Ø¸ï¿½Ê½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡
+	/// @return ï¿½ï¿½È¾ï¿½Ç·ï¿½É¹ï¿½
+	bool Draw(const unsigned  char* data,
+		int linesize = 0) override;
+	bool Draw(
+		const unsigned  char* y, int y_pitch,
+		const unsigned  char* u, int u_pitch,
+		const unsigned  char* v, int v_pitch
+	) override;
+	bool IsExit() override;
 private:
-    SDL_Window* win_ = nullptr;
-    SDL_Renderer* render_ = nullptr;
-    SDL_Texture* texture_ = nullptr;
+	SDL_Window* win_ = nullptr;
+	SDL_Renderer* render_ = nullptr;
+	SDL_Texture* texture_ = nullptr;
 };

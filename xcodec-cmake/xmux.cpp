@@ -1,34 +1,9 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #include "xmux.h"
 
 #include <iostream>
 #include <thread>
 using namespace std;
-extern "C" { //Ö¸¶¨º¯ÊıÊÇcÓïÑÔº¯Êı£¬º¯ÊıÃû²»°üº¬ÖØÔØ±ê×¢
-//ÒıÓÃffmpegÍ·ÎÄ¼ş
+extern "C" {
 #include <libavformat/avformat.h>
 }
 void PrintErr(int err);
@@ -36,120 +11,120 @@ void PrintErr(int err);
 #define BERR(err) if(err!= 0){PrintErr(err);return 0;}
 void XMux::set_src_video_time_base(AVRational* tb)
 {
-    if (!tb)return;
-    unique_lock<mutex> lock(mux_);
-    if (!src_video_time_base_)
-        src_video_time_base_ = new AVRational();
-    *src_video_time_base_ = *tb;
+	if (!tb)return;
+	unique_lock<mutex> lock(mux_);
+	if (!src_video_time_base_)
+		src_video_time_base_ = new AVRational();
+	*src_video_time_base_ = *tb;
 }
 void XMux::set_src_audio_time_base(AVRational* tb)
 {
-    if (!tb)return;
-    unique_lock<mutex> lock(mux_);
-    if (!src_audio_time_base_)
-        src_audio_time_base_ = new AVRational();
-    *src_audio_time_base_ = *tb;
+	if (!tb)return;
+	unique_lock<mutex> lock(mux_);
+	if (!src_audio_time_base_)
+		src_audio_time_base_ = new AVRational();
+	*src_audio_time_base_ = *tb;
 }
 XMux::~XMux()
 {
-    unique_lock<mutex> lock(mux_);
-    if (src_video_time_base_)
-        delete src_video_time_base_;
-    src_video_time_base_ = nullptr;
-    if (src_audio_time_base_)
-        delete src_audio_time_base_;
-    src_audio_time_base_ = nullptr;
+	unique_lock<mutex> lock(mux_);
+	if (src_video_time_base_)
+		delete src_video_time_base_;
+	src_video_time_base_ = nullptr;
+	if (src_audio_time_base_)
+		delete src_audio_time_base_;
+	src_audio_time_base_ = nullptr;
 }
 
 //////////////////////////////////////////////////
-//// ´ò¿ª·â×°
+//// ï¿½ò¿ª·ï¿½×°
 AVFormatContext* XMux::Open(const char* url,
-    AVCodecParameters* video_para ,
-    AVCodecParameters* audio_para )
+	AVCodecParameters* video_para,
+	AVCodecParameters* audio_para)
 {
-    AVFormatContext* c = nullptr;
-    //´´½¨ÉÏÏÂÎÄ
-    auto re = avformat_alloc_output_context2(&c, NULL, NULL, url);
-    BERR(re);
+	AVFormatContext* c = nullptr;
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	auto re = avformat_alloc_output_context2(&c, NULL, NULL, url);
+	BERR(re);
 
-    //Ìí¼ÓÊÓÆµÒôÆµÁ÷
-    if (video_para)
-    {
-        auto vs = avformat_new_stream(c, NULL);   //ÊÓÆµÁ÷
-        avcodec_parameters_copy(vs->codecpar, video_para);
-    }
-    if (audio_para)
-    {
-        auto as = avformat_new_stream(c, NULL);   //ÒôÆµÁ÷
-        avcodec_parameters_copy(as->codecpar, audio_para);
-    }
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Æµï¿½ï¿½
+	if (video_para)
+	{
+		auto vs = avformat_new_stream(c, NULL);   //ï¿½ï¿½Æµï¿½ï¿½
+		avcodec_parameters_copy(vs->codecpar, video_para);
+	}
+	if (audio_para)
+	{
+		auto as = avformat_new_stream(c, NULL);   //ï¿½ï¿½Æµï¿½ï¿½
+		avcodec_parameters_copy(as->codecpar, audio_para);
+	}
 
-    //´ò¿ªIO
-    re = avio_open(&c->pb, url, AVIO_FLAG_WRITE);
-    BERR(re);
-    av_dump_format(c, 0, url, 1);
-    return c;
+	//ï¿½ï¿½IO
+	re = avio_open(&c->pb, url, AVIO_FLAG_WRITE);
+	BERR(re);
+	av_dump_format(c, 0, url, 1);
+	return c;
 }
 bool XMux::Write(AVPacket* pkt)
 {
-    if (!pkt)return false;
-    unique_lock<mutex> lock(mux_);
-    if (!c_)return false;
-    //Ã»¶ÁÈ¡µ½pts ÖØ¹¹¿¼ÂÇÍ¨¹ıduration ¼ÆËã
-    if (pkt->pts == AV_NOPTS_VALUE)
-    {
-        pkt->pts = 0;
-        pkt->dts = 0;
-    }
-    if (pkt->stream_index == video_index_)
-    {
-        if (begin_video_pts_ < 0)
-            begin_video_pts_ = pkt->pts;
-        lock.unlock();
-        RescaleTime(pkt, begin_video_pts_, src_video_time_base_);
-        lock.lock();
+	if (!pkt)return false;
+	unique_lock<mutex> lock(mux_);
+	if (!c_)return false;
+	//Ã»ï¿½ï¿½È¡ï¿½ï¿½pts ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½duration ï¿½ï¿½ï¿½ï¿½
+	if (pkt->pts == AV_NOPTS_VALUE)
+	{
+		pkt->pts = 0;
+		pkt->dts = 0;
+	}
+	if (pkt->stream_index == video_index_)
+	{
+		if (begin_video_pts_ < 0)
+			begin_video_pts_ = pkt->pts;
+		lock.unlock();
+		RescaleTime(pkt, begin_video_pts_, src_video_time_base_);
+		lock.lock();
 
-    }
-    else if (pkt->stream_index == audio_index_)
-    {
-        if (begin_audio_pts_ < 0)
-            begin_audio_pts_ = pkt->pts;
-        lock.unlock();
-        RescaleTime(pkt, begin_audio_pts_, src_audio_time_base_);
-        lock.lock();
-    }
+	}
+	else if (pkt->stream_index == audio_index_)
+	{
+		if (begin_audio_pts_ < 0)
+			begin_audio_pts_ = pkt->pts;
+		lock.unlock();
+		RescaleTime(pkt, begin_audio_pts_, src_audio_time_base_);
+		lock.lock();
+	}
 
-    cout << pkt->pts << " " << flush;
-    //Ğ´ÈëÒ»Ö¡Êı¾İ£¬ÄÚ²¿»º³åÅÅĞòdts£¬Í¨¹ıpkt=null ¿ÉÒÔĞ´Èë»º³å
-    auto re = av_interleaved_write_frame(c_,pkt);
-    BERR(re);
-    return true;
+	cout << pkt->pts << " " << flush;
+	//Ğ´ï¿½ï¿½Ò»Ö¡ï¿½ï¿½ï¿½İ£ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dtsï¿½ï¿½Í¨ï¿½ï¿½pkt=null ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ë»ºï¿½ï¿½
+	auto re = av_interleaved_write_frame(c_, pkt);
+	BERR(re);
+	return true;
 }
 
 bool XMux::WriteEnd()
 {
-    unique_lock<mutex> lock(mux_);
-    if (!c_)return false;
-    int re = 0;
-    //auto re = av_interleaved_write_frame(c_, nullptr);//Ğ´ÈëÅÅĞò»º³å
-    //BERR(re);
-    re = av_write_trailer(c_);
-    BERR(re);
-    return true;
+	unique_lock<mutex> lock(mux_);
+	if (!c_)return false;
+	int re = 0;
+	//auto re = av_interleaved_write_frame(c_, nullptr);//Ğ´ï¿½ï¿½ï¿½ï¿½ï¿½ò»º³ï¿½
+	//BERR(re);
+	re = av_write_trailer(c_);
+	BERR(re);
+	return true;
 }
 bool XMux::WriteHead()
 {
-    unique_lock<mutex> lock(mux_);
-    if (!c_)return false;
-    //»á¸Ä±ätimebase
-    auto re = avformat_write_header(c_, nullptr);
-    BERR(re);
+	unique_lock<mutex> lock(mux_);
+	if (!c_)return false;
+	//ï¿½ï¿½Ä±ï¿½timebase
+	auto re = avformat_write_header(c_, nullptr);
+	BERR(re);
 
-    //´òÓ¡Êä³öÉÏÏÂÎÄ
-    av_dump_format(c_, 0, c_->url, 1);
-    this->begin_audio_pts_ = -1;
-    this->begin_video_pts_ = -1;
+	//ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	av_dump_format(c_, 0, c_->url, 1);
+	this->begin_audio_pts_ = -1;
+	this->begin_video_pts_ = -1;
 
 
-    return true;
+	return true;
 }

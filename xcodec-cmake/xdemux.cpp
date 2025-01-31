@@ -1,77 +1,53 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
 
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #include "xdemux.h"
 #include <iostream>
 #include <thread>
 #include "xtools.h"
 using namespace std;
-extern "C" { //Ö¸¶¨º¯ÊıÊÇcÓïÑÔº¯Êı£¬º¯ÊıÃû²»°üº¬ÖØÔØ±ê×¢
-//ÒıÓÃffmpegÍ·ÎÄ¼ş
+extern "C" {
 #include <libavformat/avformat.h>
 }
 void PrintErr(int err);
 #define BERR(err) if(err!= 0){PrintErr(err);return 0;}
 AVFormatContext* XDemux::Open(const char* url)
 {
-    AVFormatContext* c = nullptr;
+	AVFormatContext* c = nullptr;
 
-    AVDictionary* opts = nullptr;
-    //av_dict_set(&opts, "rtsp_transport", "tcp", 0);//´«ÊäÃ½ÌåÁ÷ÎªtcpĞ­Òé£¬Ä¬ÈÏudp
-    av_dict_set(&opts, "stimeout", "1000000", 0);//Á¬½Ó³¬Ê±1Ãë
+	AVDictionary* opts = nullptr;
+	//av_dict_set(&opts, "rtsp_transport", "tcp", 0);//ï¿½ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ÎªtcpĞ­ï¿½é£¬Ä¬ï¿½ï¿½udp
+	av_dict_set(&opts, "stimeout", "1000000", 0);//ï¿½ï¿½ï¿½Ó³ï¿½Ê±1ï¿½ï¿½
 
-    //´ò¿ª·â×°ÉÏÏÂÎÄ
-    auto re = avformat_open_input(&c, url, nullptr, &opts);
-    if (opts)
-        av_dict_free(&opts);
-    BERR(re);
-    //»ñÈ¡Ã½ÌåĞÅÏ¢
-    re = avformat_find_stream_info(c, nullptr);
-    BERR(re);
-    //´òÓ¡ÊäÈë·â×°ĞÅÏ¢
-    av_dump_format(c, 0, url, 0);
+	//ï¿½ò¿ª·ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	auto re = avformat_open_input(&c, url, nullptr, &opts);
+	if (opts)
+		av_dict_free(&opts);
+	BERR(re);
+	//ï¿½ï¿½È¡Ã½ï¿½ï¿½ï¿½ï¿½Ï¢
+	re = avformat_find_stream_info(c, nullptr);
+	BERR(re);
+	//ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Ï¢
+	av_dump_format(c, 0, url, 0);
 
-    return c;
+	return c;
 }
 
 bool XDemux::Read(AVPacket* pkt)
 {
-    unique_lock<mutex> lock(mux_);
-    if (!c_)return false;
-    auto re = av_read_frame(c_, pkt);
-    BERR(re);
-    //¼ÆÊ± ÓÃÓÚ³¬Ê±ÅĞ¶Ï
-    last_time_ = NowMs();
-    return true;
+	unique_lock<mutex> lock(mux_);
+	if (!c_)return false;
+	auto re = av_read_frame(c_, pkt);
+	BERR(re);
+	//ï¿½ï¿½Ê± ï¿½ï¿½ï¿½Ú³ï¿½Ê±ï¿½Ğ¶ï¿½
+	last_time_ = NowMs();
+	return true;
 }
 
 bool XDemux::Seek(long long pts, int stream_index)
 {
-    unique_lock<mutex> lock(mux_);
-    if (!c_)return false;
-    auto re = av_seek_frame(c_, stream_index, pts,
-               AVSEEK_FLAG_FRAME | AVSEEK_FLAG_BACKWARD);
-    BERR(re);
-    return true;
+	unique_lock<mutex> lock(mux_);
+	if (!c_)return false;
+	auto re = av_seek_frame(c_, stream_index, pts,
+		AVSEEK_FLAG_FRAME | AVSEEK_FLAG_BACKWARD);
+	BERR(re);
+	return true;
 }

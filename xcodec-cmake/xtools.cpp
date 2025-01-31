@@ -1,27 +1,3 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #include "xtools.h"
 #include <sstream>
 using namespace std;
@@ -33,124 +9,124 @@ extern "C"
 
 void PrintErr(int err)
 {
-    char buf[1024] = { 0 };
-    av_strerror(err, buf, sizeof(buf) - 1);
-    cerr << buf << endl;
+	char buf[1024] = { 0 };
+	av_strerror(err, buf, sizeof(buf) - 1);
+	cerr << buf << endl;
 }
 
 
 void XFreeFrame(AVFrame** frame)
 {
-    if (!frame || !(*frame))return;
-    av_frame_free(frame);
+	if (!frame || !(*frame))return;
+	av_frame_free(frame);
 }
 void MSleep(unsigned int ms)
 {
-    auto beg = clock();
-    for (int i = 0; i < ms; i++)
-    {
-        this_thread::sleep_for(1ms);
-        if ((clock() - beg) / (CLOCKS_PER_SEC / 1000) >= ms)
-            break;
-    }
+	auto beg = clock();
+	for (int i = 0; i < ms; i++)
+	{
+		this_thread::sleep_for(1ms);
+		if ((clock() - beg) / (CLOCKS_PER_SEC / 1000) >= ms)
+			break;
+	}
 }
 long long NowMs()
 {
-    return clock() / (CLOCKS_PER_SEC / 1000);
+	return clock() / (CLOCKS_PER_SEC / 1000);
 }
 
-//Æô¶¯Ïß³Ì
+//ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
 void XThread::Start()
 {
-    unique_lock<mutex> lock(m_);
-    static int i = 0;
-    i++;
-    index_ = i;
-    is_exit_ = false;
-    //Æô¶¯Ïß³Ì
-    th_ = thread(&XThread::Main, this);
-    stringstream ss;
-    ss << "XThread::Start()" << index_;
-    LOGINFO(ss.str());
+	unique_lock<mutex> lock(m_);
+	static int i = 0;
+	i++;
+	index_ = i;
+	is_exit_ = false;
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
+	th_ = thread(&XThread::Main, this);
+	stringstream ss;
+	ss << "XThread::Start()" << index_;
+	LOGINFO(ss.str());
 }
 
-//Í£Ö¹Ïß³Ì£¨ÉèÖÃÍË³ö±êÖ¾£¬µÈ´ıÏß³ÌÍË³ö£©
+//Í£Ö¹ï¿½ß³Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½È´ï¿½ï¿½ß³ï¿½ï¿½Ë³ï¿½ï¿½ï¿½
 void XThread::Stop()
 {
-    stringstream ss;
-    ss << "XThread::Stop() begin" << index_;
-    LOGINFO(ss.str());
-    is_exit_ = true;
-    if (th_.joinable()) //ÅĞ¶Ï×ÓÏß³ÌÊÇ·ñ¿ÉÒÔµÈ´ı
-        th_.join();     //µÈ´ı×ÓÏß³ÌÍË³ö
-    ss.str("");
-    ss << "XThread::Stop() end" << index_;
-    LOGINFO(ss.str());
+	stringstream ss;
+	ss << "XThread::Stop() begin" << index_;
+	LOGINFO(ss.str());
+	is_exit_ = true;
+	if (th_.joinable()) //ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ÔµÈ´ï¿½
+		th_.join();     //ï¿½È´ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½Ë³ï¿½
+	ss.str("");
+	ss << "XThread::Stop() end" << index_;
+	LOGINFO(ss.str());
 }
 
 
-//´´½¨¶ÔÏó
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 XPara* XPara::Create()
 {
-    return new XPara();
+	return new XPara();
 }
 XPara::~XPara()
 {
-    if (para)
-    {
-        avcodec_parameters_free(&para);
-    }
-    if (time_base)
-    {
-        delete time_base;
-        time_base = nullptr;
-    }
+	if (para)
+	{
+		avcodec_parameters_free(&para);
+	}
+	if (time_base)
+	{
+		delete time_base;
+		time_base = nullptr;
+	}
 }
 
-//Ë½ÓĞÊÇ½ûÖ¹´´½¨Õ»ÖĞ¶ÔÏó
+//Ë½ï¿½ï¿½ï¿½Ç½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Õ»ï¿½Ğ¶ï¿½ï¿½ï¿½
 XPara::XPara()
 {
-    para = avcodec_parameters_alloc();
-    time_base = new AVRational();
+	para = avcodec_parameters_alloc();
+	time_base = new AVRational();
 }
 
 AVPacket* XAVPacketList::Pop()
 {
-    unique_lock<mutex> lock(mux_);
-    if (pkts_.empty())return nullptr;
-    auto pkt = pkts_.front();
-    pkts_.pop_front();
-    return pkt;
+	unique_lock<mutex> lock(mux_);
+	if (pkts_.empty())return nullptr;
+	auto pkt = pkts_.front();
+	pkts_.pop_front();
+	return pkt;
 }
 
 void XAVPacketList::Push(AVPacket* pkt)
 {
-    unique_lock<mutex> lock(mux_);
-    //Éú³ÉĞÂµÄAVPacket ¶ÔÏó ÒıÓÃ¼ÆÊı+1;
-    auto p = av_packet_alloc();
-    av_packet_ref(p, pkt);//ÒıÓÃ¼ÆÊı ¼õÉÙÊı¾İ¸´ÖÆ£¬Ïß³Ì°²È«
-    pkts_.push_back(p);
+	unique_lock<mutex> lock(mux_);
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½AVPacket ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½+1;
+	auto p = av_packet_alloc();
+	av_packet_ref(p, pkt);//ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¸ï¿½ï¿½Æ£ï¿½ï¿½ß³Ì°ï¿½È«
+	pkts_.push_back(p);
 
-    //³¬³ö×î´ó¿Õ¼ä£¬ÇåÀíÊı¾İ£¬µ½¹Ø¼üÖ¡Î»ÖÃ
-    if (pkts_.size() > max_packets_)
-    {
-        //´¦ÀíµÚÒ»Ö¡
-        if (pkts_.front()->flags & AV_PKT_FLAG_KEY)//¹Ø¼üÖ¡
-        {
-            av_packet_free(&pkts_.front());//ÇåÀí
-            pkts_.pop_front();  //³ö¶Ó
-            return;
-        }
-        //ÇåÀíËùÓĞ·Ç¹Ø¼üÖ¡Ö®Ç°µÄÊı¾İ
-        while (!pkts_.empty())
-        {
-            if (pkts_.front()->flags & AV_PKT_FLAG_KEY)//¹Ø¼üÖ¡
-            {
-                return;
-            }
-            av_packet_free(&pkts_.front());//ÇåÀí
-            pkts_.pop_front();  //³ö¶Ó
-        }
-    }
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ä£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½Ö¡Î»ï¿½ï¿½
+	if (pkts_.size() > max_packets_)
+	{
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ö¡
+		if (pkts_.front()->flags & AV_PKT_FLAG_KEY)//ï¿½Ø¼ï¿½Ö¡
+		{
+			av_packet_free(&pkts_.front());//ï¿½ï¿½ï¿½ï¿½
+			pkts_.pop_front();  //ï¿½ï¿½ï¿½ï¿½
+			return;
+		}
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ·Ç¹Ø¼ï¿½Ö¡Ö®Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		while (!pkts_.empty())
+		{
+			if (pkts_.front()->flags & AV_PKT_FLAG_KEY)//ï¿½Ø¼ï¿½Ö¡
+			{
+				return;
+			}
+			av_packet_free(&pkts_.front());//ï¿½ï¿½ï¿½ï¿½
+			pkts_.pop_front();  //ï¿½ï¿½ï¿½ï¿½
+		}
+	}
 
 }

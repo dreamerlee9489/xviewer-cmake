@@ -30,8 +30,7 @@ endif()
 target_include_directories(xcodec PRIVATE ${SDL2_INCLUDE_DIRS})
 
 # 链接 SDL2 和其他依赖库
-target_link_libraries(xcodec PRIVATE
-    ${SDL2_LIBRARIES}
+target_link_libraries(xcodec PRIVATE ${SDL2_LIBRARIES}
     avcodec
     avformat
     avutil

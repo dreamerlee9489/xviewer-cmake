@@ -1,59 +1,35 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #include "xcalendar.h"
 #include <QPainter>
-XCalendar::XCalendar(QWidget* p):QCalendarWidget(p)
+XCalendar::XCalendar(QWidget* p) :QCalendarWidget(p)
 {
 
 }
 void XCalendar::paintCell(QPainter* painter,
-    const QRect& rec,
-    const QDate& date) const
+	const QRect& rec,
+	const QDate& date) const
 {
-    //ÓĞÊÓÆµµÄÈÕÆÚÌØÊâÏÔÊ¾
-    if (mdate_.find(date) == mdate_.end()) //Ã»ÓĞÊÓÆµ
-    {
-        QCalendarWidget::paintCell(painter, rec, date);
-        return;
-    }
+	//ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+	if (mdate_.find(date) == mdate_.end()) //Ã»ï¿½ï¿½ï¿½ï¿½Æµ
+	{
+		QCalendarWidget::paintCell(painter, rec, date);
+		return;
+	}
 
-    
 
-    auto font = painter->font();
-    //ÉèÖÃ×ÖÌå
-    font.setPixelSize(40);
 
-    //Ñ¡ÖĞ×´Ì¬Ë¢±³¾°É«
-    if (date == selectedDate())
-    {
-        painter->setBrush(QColor(118, 178, 224));//Ë¢×ÓÑÕÉ«
-        painter->drawRect(rec);                 //»æÖÆ±³¾°
-    }
-    painter->setFont(font);             //ÉèÖÃ×ÖÌåºÍÑÕÉ«
-    painter->setPen(QColor(255, 0, 0)); //×ÖÑÕÉ«
-    painter->drawText(rec,Qt::AlignCenter,
-        QString::number(date.day()));
+	auto font = painter->font();
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	font.setPixelSize(40);
+
+	//Ñ¡ï¿½ï¿½×´Ì¬Ë¢ï¿½ï¿½ï¿½ï¿½É«
+	if (date == selectedDate())
+	{
+		painter->setBrush(QColor(118, 178, 224));//Ë¢ï¿½ï¿½ï¿½ï¿½É«
+		painter->drawRect(rec);                 //ï¿½ï¿½ï¿½Æ±ï¿½ï¿½ï¿½
+	}
+	painter->setFont(font);             //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
+	painter->setPen(QColor(255, 0, 0)); //ï¿½ï¿½ï¿½ï¿½É«
+	painter->drawText(rec, Qt::AlignCenter,
+		QString::number(date.day()));
 
 }

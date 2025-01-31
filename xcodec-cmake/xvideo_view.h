@@ -1,27 +1,3 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ÐÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #ifndef XVIDEO_VIEW_H
 #define XVIDEO_VIEW_H
 #include <mutex>
@@ -29,94 +5,94 @@
 #include "xtools.h"
 
 ////////////////////////////////////
-/// ÊÓÆµäÖÈ¾½Ó¿ÚÀà
-/// Òþ²ØSDLÊµÏÖ
-/// äÖÈ¾·½°¸¿ÉÌæ´ú
-// Ïß³Ì°²È«
+/// ï¿½ï¿½Æµï¿½ï¿½È¾ï¿½Ó¿ï¿½ï¿½ï¿½
+/// ï¿½ï¿½ï¿½ï¿½SDLÊµï¿½ï¿½
+/// ï¿½ï¿½È¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ß³Ì°ï¿½È«
 class XCODEC_API XVideoView
 {
 public:
-    enum Format  //Ã¶¾ÙµÄÖµºÍffmpegÖÐÒ»ÖÂ
-    {
-        YUV420P = 0,
-        NV12 = 23,
-        ARGB = 25,
-        RGBA = 26,
-        BGRA = 28
-    };
-    enum RenderType
-    {
-        SDL = 0
-    };
-    static XVideoView* Create(RenderType type=SDL);
+	enum Format  //Ã¶ï¿½Ùµï¿½Öµï¿½ï¿½ffmpegï¿½ï¿½Ò»ï¿½ï¿½
+	{
+		YUV420P = 0,
+		NV12 = 23,
+		ARGB = 25,
+		RGBA = 26,
+		BGRA = 28
+	};
+	enum RenderType
+	{
+		SDL = 0
+	};
+	static XVideoView* Create(RenderType type = SDL);
 
-    ////////////////////////////////////////////////
-    /// ³õÊ¼»¯äÖÈ¾´°¿Ú Ïß³Ì°²È« ¿É¶à´Îµ÷ÓÃ
-    /// @para w ´°¿Ú¿í¶È
-    /// @para h ´°¿Ú¸ß¶È
-    /// @para fmt »æÖÆµÄÏñËØ¸ñÊ½
-    /// @para win_id ´°¿Ú¾ä±ú£¬Èç¹ûÎª¿Õ£¬´´½¨ÐÂ´°¿Ú
-    /// @return ÊÇ·ñ´´½¨³É¹¦
-    virtual bool Init(int w, int h,
-        Format fmt = RGBA) = 0;
-    bool Init(AVCodecParameters* para);
-    //ÇåÀíËùÓÐÉêÇëµÄ×ÊÔ´£¬°üÀ¨¹Ø±Õ´°¿Ú
-    virtual void Close() = 0;
+	////////////////////////////////////////////////
+	/// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½ï¿½ï¿½ ï¿½ß³Ì°ï¿½È« ï¿½É¶ï¿½Îµï¿½ï¿½ï¿½
+	/// @para w ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½
+	/// @para h ï¿½ï¿½ï¿½Ú¸ß¶ï¿½
+	/// @para fmt ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ø¸ï¿½Ê½
+	/// @para win_id ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½
+	/// @return ï¿½Ç·ñ´´½ï¿½ï¿½É¹ï¿½
+	virtual bool Init(int w, int h,
+		Format fmt = RGBA) = 0;
+	bool Init(AVCodecParameters* para);
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±Õ´ï¿½ï¿½ï¿½
+	virtual void Close() = 0;
 
-    //´¦Àí´°¿ÚÍË³öÊÂ¼þ
-    virtual bool IsExit() = 0;
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½Â¼ï¿½
+	virtual bool IsExit() = 0;
 
-    //////////////////////////////////////////////////
-    /// äÖÈ¾Í¼Ïñ Ïß³Ì°²È«
-    ///@para data äÖÈ¾µÄ¶þ½øÖÆÊý¾Ý
-    ///@para linesize Ò»ÐÐÊý¾ÝµÄ×Ö½ÚÊý£¬¶ÔÓÚYUV420P¾ÍÊÇYÒ»ÐÐ×Ö½ÚÊý
-    /// linesize<=0 ¾Í¸ù¾Ý¿í¶ÈºÍÏñËØ¸ñÊ½×Ô¶¯Ëã³ö´óÐ¡
-    /// @return äÖÈ¾ÊÇ·ñ³É¹¦
-    virtual bool Draw(const unsigned  char* data, int linesize = 0) = 0;
-    virtual bool Draw(
-        const unsigned  char* y, int y_pitch,
-        const unsigned  char* u, int u_pitch,
-        const unsigned  char* v, int v_pitch
-        ) = 0;
-
-    
-    //ÏÔÊ¾Ëõ·Å
-    void Scale(int w, int h)
-    {
-        scale_w_ = w;
-        scale_h_ = h;
-    }
-
-    bool DrawFrame(AVFrame* frame);
-
-    int render_fps() { return render_fps_; }
-
-    //´ò¿ªÎÄ¼þ
-    bool Open(std::string filepath);
+	//////////////////////////////////////////////////
+	/// ï¿½ï¿½È¾Í¼ï¿½ï¿½ ï¿½ß³Ì°ï¿½È«
+	///@para data ï¿½ï¿½È¾ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	///@para linesize Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½YUV420Pï¿½ï¿½ï¿½ï¿½YÒ»ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
+	/// linesize<=0 ï¿½Í¸ï¿½ï¿½Ý¿ï¿½ï¿½Èºï¿½ï¿½ï¿½ï¿½Ø¸ï¿½Ê½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡
+	/// @return ï¿½ï¿½È¾ï¿½Ç·ï¿½É¹ï¿½
+	virtual bool Draw(const unsigned  char* data, int linesize = 0) = 0;
+	virtual bool Draw(
+		const unsigned  char* y, int y_pitch,
+		const unsigned  char* u, int u_pitch,
+		const unsigned  char* v, int v_pitch
+	) = 0;
 
 
-    //////////////////////////////////////
-    /// ¶ÁÈ¡Ò»Ö¡Êý¾Ý£¬²¢Î¬»¤AVFrame¿Õ¼ä
-    /// Ã¿´Îµ÷ÓÃ»á¸²¸ÇÉÏÒ»´ÎÊý¾Ý
-    AVFrame* Read();
-    void set_win_id(void* win) { win_id_ = win; }
-    virtual ~XVideoView();
+	//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
+	void Scale(int w, int h)
+	{
+		scale_w_ = w;
+		scale_h_ = h;
+	}
+
+	bool DrawFrame(AVFrame* frame);
+
+	int render_fps() { return render_fps_; }
+
+	//ï¿½ï¿½ï¿½Ä¼ï¿½
+	bool Open(std::string filepath);
+
+
+	//////////////////////////////////////
+	/// ï¿½ï¿½È¡Ò»Ö¡ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½Î¬ï¿½ï¿½AVFrameï¿½Õ¼ï¿½
+	/// Ã¿ï¿½Îµï¿½ï¿½Ã»á¸²ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	AVFrame* Read();
+	void set_win_id(void* win) { win_id_ = win; }
+	virtual ~XVideoView();
 protected:
-    void* win_id_ = nullptr; //´°¿Ú¾ä±ú
-    int render_fps_ = 0;       //ÏÔÊ¾Ö¡ÂÊ
-    int width_ = 0;             //²ÄÖÊ¿í¸ß
-    int height_ = 0;
-    Format fmt_ = RGBA;         //ÏñËØ¸ñÊ½
-    std::mutex mtx_;            //È·±£Ïß³Ì°²È«
-    int scale_w_ = 0;           //ÏÔÊ¾´óÐ¡
-    int scale_h_ = 0;
-    long long beg_ms_ = 0;       //¼ÆÊ±¿ªÊ¼Ê±¼ä
-    int count_ = 0;              //Í³¼ÆÏÔÊ¾´ÎÊý
-    
+	void* win_id_ = nullptr; //ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½
+	int render_fps_ = 0;       //ï¿½ï¿½Ê¾Ö¡ï¿½ï¿½
+	int width_ = 0;             //ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½
+	int height_ = 0;
+	Format fmt_ = RGBA;         //ï¿½ï¿½ï¿½Ø¸ï¿½Ê½
+	std::mutex mtx_;            //È·ï¿½ï¿½ï¿½ß³Ì°ï¿½È«
+	int scale_w_ = 0;           //ï¿½ï¿½Ê¾ï¿½ï¿½Ð¡
+	int scale_h_ = 0;
+	long long beg_ms_ = 0;       //ï¿½ï¿½Ê±ï¿½ï¿½Ê¼Ê±ï¿½ï¿½
+	int count_ = 0;              //Í³ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
+
 private:
-    std::ifstream ifs_;
-    AVFrame* frame_ = nullptr;
-    unsigned char* cache_ = nullptr;//¸´ÖÆNV12»º³å
+	std::ifstream ifs_;
+	AVFrame* frame_ = nullptr;
+	unsigned char* cache_ = nullptr;//ï¿½ï¿½ï¿½ï¿½NV12ï¿½ï¿½ï¿½ï¿½
 };
 
 #endif

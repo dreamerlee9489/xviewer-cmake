@@ -1,27 +1,3 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include <QWidget>
 class XDecodeTask;
@@ -29,32 +5,32 @@ class XDemuxTask;
 class XVideoView;
 class XCameraWidget :public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    XCameraWidget(QWidget* p=nullptr);
-    
-    //ÍÏ×§½øÈë
-    void dragEnterEvent(QDragEnterEvent* e) override;
+	XCameraWidget(QWidget* p = nullptr);
 
-    //ÍÏ×§ËÉ¿ª
-    void dropEvent(QDropEvent* e) override;
+	//ï¿½ï¿½×§ï¿½ï¿½ï¿½ï¿½
+	void dragEnterEvent(QDragEnterEvent* e) override;
 
-    //äÖÈ¾
-    void paintEvent(QPaintEvent* p);
+	//ï¿½ï¿½×§ï¿½É¿ï¿½
+	void dropEvent(QDropEvent* e) override;
 
-    //´ò¿ªrtsp ¿ªÊ¼½â·â×° ½âÂë
-    bool Open(const char* url);
+	//ï¿½ï¿½È¾
+	void paintEvent(QPaintEvent* p);
+
+	//ï¿½ï¿½rtsp ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½×° ï¿½ï¿½ï¿½ï¿½
+	bool Open(const char* url);
 
 
-    //äÖÈ¾ÊÓÆµ
-    void Draw();
+	//ï¿½ï¿½È¾ï¿½ï¿½Æµ
+	void Draw();
 
-    //ÇåÀí×ÊÔ´
-    ~XCameraWidget();
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
+	~XCameraWidget();
 private:
-    XDecodeTask* decode_ = nullptr;
-    XDemuxTask* demux_ = nullptr;
-    XVideoView* view_ = nullptr;
+	XDecodeTask* decode_ = nullptr;
+	XDemuxTask* demux_ = nullptr;
+	XVideoView* view_ = nullptr;
 };
 

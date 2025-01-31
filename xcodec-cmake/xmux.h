@@ -1,58 +1,32 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ÐÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 #include "xformat.h"
-//////////////////////////////////////
-/// Ã½Ìå·â×°
 
 class XCODEC_API XMux :public XFormat
 {
 public:
-    //////////////////////////////////////////////////
-    //// ´ò¿ª·â×°
-    static AVFormatContext* Open(const char* url,
-        AVCodecParameters* video_para = nullptr,
-        AVCodecParameters* audio_para = nullptr
-    );
+	//////////////////////////////////////////////////
+	//// ï¿½ò¿ª·ï¿½×°
+	static AVFormatContext* Open(const char* url,
+		AVCodecParameters* video_para = nullptr,
+		AVCodecParameters* audio_para = nullptr
+	);
 
-    bool WriteHead();
+	bool WriteHead();
 
-    bool Write(AVPacket* pkt);
+	bool Write(AVPacket* pkt);
 
-    bool WriteEnd();
+	bool WriteEnd();
 
-    //ÒôÊÓÆµÊ±¼ä»ù´¡
-    void set_src_video_time_base(AVRational* tb);
-    void set_src_audio_time_base(AVRational* tb);
+	//ï¿½ï¿½ï¿½ï¿½ÆµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½
+	void set_src_video_time_base(AVRational* tb);
+	void set_src_audio_time_base(AVRational* tb);
 
-    ~XMux();
+	~XMux();
 private:
-    AVRational* src_video_time_base_ = nullptr;
-    AVRational* src_audio_time_base_ = nullptr;
+	AVRational* src_video_time_base_ = nullptr;
+	AVRational* src_audio_time_base_ = nullptr;
 
-    long long begin_video_pts_ = -1;//Ô­ÊÓÆµ¿ªÊ¼Ê±¼ä
-    long long begin_audio_pts_ = -1;//Ô­ÒôÆµ¿ªÊ¼Ê±¼ä
+	long long begin_video_pts_ = -1;//Ô­ï¿½ï¿½Æµï¿½ï¿½Ê¼Ê±ï¿½ï¿½
+	long long begin_audio_pts_ = -1;//Ô­ï¿½ï¿½Æµï¿½ï¿½Ê¼Ê±ï¿½ï¿½
 };
 

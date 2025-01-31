@@ -1,27 +1,3 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #pragma once
 
 #include <QtWidgets/QWidget>
@@ -29,52 +5,52 @@
 #include <QMenu>
 class XViewer : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    XViewer(QWidget *parent = Q_NULLPTR);
+	XViewer(QWidget* parent = Q_NULLPTR);
 
-    //Êó±êÊÂ¼ş ÓÃÓÚÍÏ¶¯´°¿Ú
-    void mouseMoveEvent(QMouseEvent* ev) override;
-    void mousePressEvent(QMouseEvent* ev) override;
-    void mouseReleaseEvent(QMouseEvent* ev) override;
+	//ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½
+	void mouseMoveEvent(QMouseEvent* ev) override;
+	void mousePressEvent(QMouseEvent* ev) override;
+	void mouseReleaseEvent(QMouseEvent* ev) override;
 
-    //´°¿Ú´óĞ¡·¢Éú±àÂë
-    void resizeEvent(QResizeEvent* ev) override;
-    //ÓÒ¼ü²Ëµ¥
-    void contextMenuEvent(QContextMenuEvent* event) override;
+	//ï¿½ï¿½ï¿½Ú´ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void resizeEvent(QResizeEvent* ev) override;
+	//ï¿½Ò¼ï¿½ï¿½Ëµï¿½
+	void contextMenuEvent(QContextMenuEvent* event) override;
 
-    //Ô¤ÀÀÊÓÆµ´°¿Ú
-    void View(int count);
+	//Ô¤ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+	void View(int count);
 
-    //Ë¢ĞÂ×ó²àÏà»úÁĞ±í
-    void RefreshCams();
+	//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
+	void RefreshCams();
 
-    //±à¼­ÉãÏñ»ú
-    void SetCam(int index);
+	//ï¿½à¼­ï¿½ï¿½ï¿½ï¿½ï¿½
+	void SetCam(int index);
 
-    //¶¨Ê±Æ÷äÖÈ¾ÊÓÆµ »Øµ÷º¯Êı
-    void timerEvent(QTimerEvent* ev) override;
+	//ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½Æµ ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
+	void timerEvent(QTimerEvent* ev) override;
 public slots:
-    void MaxWindow();
-    void NormalWindow();
-    void View1();
-    void View4();
-    void View9();
-    void View16();
-    void AddCam();  //ĞÂÔöÉãÏñ»úÅäÖÃ
-    void SetCam();  //
-    void DelCam();  //
+	void MaxWindow();
+	void NormalWindow();
+	void View1();
+	void View4();
+	void View9();
+	void View16();
+	void AddCam();  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void SetCam();  //
+	void DelCam();  //
 
-    void StartRecord(); //¿ªÊ¼È«²¿ÉãÏñÍ·Â¼ÖÆ
-    void StopRecord();  //Í£Ö¹È«²¿ÉãÏñÍ·Â¼ÖÆ
-    void Preview();//Ô¤ÀÀ½çÃæ
-    void Playback();//»Ø·Å½çÃæ
+	void StartRecord(); //ï¿½ï¿½Ê¼È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Â¼ï¿½ï¿½
+	void StopRecord();  //Í£Ö¹È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Â¼ï¿½ï¿½
+	void Preview();//Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void Playback();//ï¿½Ø·Å½ï¿½ï¿½ï¿½
 
-    void SelectCamera(QModelIndex index);//Ñ¡ÔñÉãÏñ»ú
-    void SelectDate(QDate date);        //Ñ¡ÔñÈÕÆÚ
-    void PlayVideo(QModelIndex index);  //Ñ¡ÔñÊ±¼ä²¥·ÅÊÓÆµ
+	void SelectCamera(QModelIndex index);//Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void SelectDate(QDate date);        //Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	void PlayVideo(QModelIndex index);  //Ñ¡ï¿½ï¿½Ê±ï¿½ä²¥ï¿½ï¿½ï¿½ï¿½Æµ
 private:
-    Ui::XViewerClass ui;
-    QMenu left_menu_;
+	Ui::XViewerClass ui;
+	QMenu left_menu_;
 };

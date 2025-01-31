@@ -1,27 +1,3 @@
-/*/*******************************************************************************
-**                                                                            **
-**                     Jiedi(China nanjing)Ltd.                               **
-**	               ´´½¨£º¶¡ËÎÌÎ ÏÄ²Ü¿¡£¬´Ë´úÂë¿ÉÓÃ×÷ÎªÑ§Ï°²Î¿¼                **
-*******************************************************************************/
-
-/*****************************FILE INFOMATION***********************************
-**
-** Project       :FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î
-
-** Contact       : xiacaojun@qq.com
-**  ²©¿Í   : http://blog.csdn.net/jiedichina
-**	ÊÓÆµ¿Î³Ì : ÍøÒ×ÔÆ¿ÎÌÃ	http://study.163.com/u/xiacaojun		
-			   ÌÚÑ¶¿ÎÌÃ		https://jiedi.ke.qq.com/				
-			   csdnÑ§Ôº               http://edu.csdn.net/lecturer/lecturer_detail?lecturer_id=961	
-**             51ctoÑ§Ôº              http://edu.51cto.com/lecturer/index/user_id-12016059.html	
-** 			   ÀÏÏÄ¿ÎÌÃ		http://www.laoxiaketang.com 
-**                              ¸ü¶à×ÊÁÏÇëÔÚ´ËÍøÒ³ÏÂÔØ            http://ffmpeg.club
-**  FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î  ¿Î³ÌÈº £º639014264¼ÓÈëÈºÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷
-**                           Î¢ĞÅ¹«ÖÚºÅ  : jiedi2007
-**		Í·ÌõºÅ	 : ÏÄ²Ü¿¡
-**
-*****************************************************************************
-//£¡£¡£¡£¡£¡£¡£¡£¡£¡FFmpeg 4.2 ´Ó»ù´¡ÊµÕ½-¶àÂ·H265¼à¿ØÂ¼·Å¿ª·¢ ÊµÑµ¿Î ¿Î³Ì  QQÈº£º639014264ÏÂÔØ´úÂëºÍÑ§Ô±½»Á÷*/
 #include "xcamera_widget.h"
 #include <QStyleOption>
 #include <QPainter>
@@ -33,100 +9,100 @@
 #include "xdecode_task.h"
 #include "xvideo_view.h"
 #include "xcamera_config.h"
-//äÖÈ¾
+//ï¿½ï¿½È¾
 void XCameraWidget::paintEvent(QPaintEvent* p)
 {
-    //äÖÈ¾ÑùÊ½±í
-    QStyleOption opt;
-    opt.init(this);
-    QPainter painter(this);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
+	//ï¿½ï¿½È¾ï¿½ï¿½Ê½ï¿½ï¿½
+	QStyleOption opt;
+	opt.init(this);
+	QPainter painter(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 }
-XCameraWidget::XCameraWidget(QWidget* p):QWidget(p)
+XCameraWidget::XCameraWidget(QWidget* p) :QWidget(p)
 {
-    //½ÓÊÕÍÏ×§
-    this->setAcceptDrops(true);
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×§
+	this->setAcceptDrops(true);
 }
 
-//ÍÏ×§½øÈë
+//ï¿½ï¿½×§ï¿½ï¿½ï¿½ï¿½
 void XCameraWidget::dragEnterEvent(QDragEnterEvent* e)
 {
-    //½ÓÊÕÍÏ×§½øÈë
-    e->acceptProposedAction();
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×§ï¿½ï¿½ï¿½ï¿½
+	e->acceptProposedAction();
 }
-//äÖÈ¾ÊÓÆµ
+//ï¿½ï¿½È¾ï¿½ï¿½Æµ
 void XCameraWidget::Draw()
 {
-    if (!demux_ || !decode_ || !view_)return;
-    auto f = decode_->GetFrame();
-    if (!f)return;
-    view_->DrawFrame(f);
-    XFreeFrame(&f);
+	if (!demux_ || !decode_ || !view_)return;
+	auto f = decode_->GetFrame();
+	if (!f)return;
+	view_->DrawFrame(f);
+	XFreeFrame(&f);
 }
 
-//ÇåÀí×ÊÔ´
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 XCameraWidget::~XCameraWidget()
 {
-    if (demux_)
-    {
-        demux_->Stop();
-        delete demux_;
-        demux_ == nullptr;
-    }
-    if (decode_)
-    {
-        decode_->Stop();
-        delete decode_;
-        decode_ == nullptr;
-    }
-    if (view_)
-    {
-        view_->Close();
-        delete view_;
-        view_ = nullptr;
-    }
+	if (demux_)
+	{
+		demux_->Stop();
+		delete demux_;
+		demux_ == nullptr;
+	}
+	if (decode_)
+	{
+		decode_->Stop();
+		delete decode_;
+		decode_ == nullptr;
+	}
+	if (view_)
+	{
+		view_->Close();
+		delete view_;
+		view_ = nullptr;
+	}
 }
 
 bool XCameraWidget::Open(const char* url)
 {
-    if (demux_)
-        demux_->Stop();
-    if (decode_)
-        decode_->Stop();
-    //´ò¿ª½â·â×°Ïß³Ì
-    demux_ = new XDemuxTask();
-    if (!demux_->Open(url))
-    {
-        return false;
-    }
-    //´ò¿ªÊÓÆµ½âÂëÆ÷Ïß³Ì
-    decode_ = new XDecodeTask();
-    auto para = demux_->CopyVideoPara();
-    if (!decode_->Open(para->para))
-    {
-        return false;
-    }
-    //Éè¶¨½âÂëÏß³Ì½ÓÊÕ½â·â×°Êı¾İ
-    demux_->set_next(decode_);
+	if (demux_)
+		demux_->Stop();
+	if (decode_)
+		decode_->Stop();
+	//ï¿½ò¿ª½ï¿½ï¿½×°ï¿½ß³ï¿½
+	demux_ = new XDemuxTask();
+	if (!demux_->Open(url))
+	{
+		return false;
+	}
+	//ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
+	decode_ = new XDecodeTask();
+	auto para = demux_->CopyVideoPara();
+	if (!decode_->Open(para->para))
+	{
+		return false;
+	}
+	//ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì½ï¿½ï¿½Õ½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
+	demux_->set_next(decode_);
 
-    //³õÊ¼»¯äÖÈ¾²ÎÊı
-    view_ = XVideoView::Create();
-    view_->set_win_id((void*)winId());
-    view_->Init(para->para);
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½È¾ï¿½ï¿½ï¿½ï¿½
+	view_ = XVideoView::Create();
+	view_->set_win_id((void*)winId());
+	view_->Init(para->para);
 
-    //Æô¶¯½â·â×°ºÍ½âÂëÏß³Ì
-    demux_->Start();
-    decode_->Start();
-    return true;
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½Í½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
+	demux_->Start();
+	decode_->Start();
+	return true;
 }
-//ÍÏ×§ËÉ¿ª
+//ï¿½ï¿½×§ï¿½É¿ï¿½
 void XCameraWidget::dropEvent(QDropEvent* e)
 {
-    //ÄÃµ½url
-    qDebug()<<e->source()->objectName();
-    auto wid = (QListWidget*)e->source();
-    qDebug() << wid->currentRow();
-    auto cam = XCameraConfig::Instance()->GetCam(wid->currentRow());
-    Open(cam.sub_url);
+	//ï¿½Ãµï¿½url
+	qDebug() << e->source()->objectName();
+	auto wid = (QListWidget*)e->source();
+	qDebug() << wid->currentRow();
+	auto cam = XCameraConfig::Instance()->GetCam(wid->currentRow());
+	Open(cam.sub_url);
 
 }
